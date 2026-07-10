@@ -8,8 +8,19 @@ const progress = document.querySelector("#progress");
 const progressLabel = document.querySelector("[data-progress-label]");
 const enterButton = document.querySelector("[data-enter]");
 const projectLoader = document.querySelector("[data-project-loader]");
+const heroLogo = document.querySelector(".hero-logo");
+const systemNoiseMessages = [
+  "EROR - PROJECT VEIL // TRACE LOST // IDENTITY STATUS: UNSTABLE",
+  "EROR - PROJECT VEIL // ACCESS NODE DESYNC",
+  "EROR - PROJECT VEIL // UFSSA SIGNAL JAMMED",
+  "EROR - PROJECT VEIL // AGENT FILE PARTIALLY REDACTED",
+  "EROR - PROJECT VEIL // MEMORY FRAGMENT MISSING",
+  "EROR - PROJECT VEIL // SURVEILLANCE LOOP ACTIVE",
+];
 
 runIntroSequence();
+setupHeroLogoScroll();
+setupSystemNoise();
 
 enterButton.addEventListener("click", () => {
   intro.classList.add("is-hidden");
@@ -207,4 +218,32 @@ async function runProjectLoader() {
 
 function wait(duration) {
   return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+function setupHeroLogoScroll() {
+  if (!heroLogo) return;
+
+  const updateLogo = () => {
+    heroLogo.classList.toggle("is-hidden-by-scroll", window.scrollY > 90);
+  };
+
+  updateLogo();
+  window.addEventListener("scroll", updateLogo, { passive: true });
+}
+
+function setupSystemNoise() {
+  const noiseNodes = document.querySelectorAll(".system-noise");
+  if (!noiseNodes.length) return;
+
+  noiseNodes.forEach((node, index) => {
+    node.textContent = systemNoiseMessages[index % systemNoiseMessages.length];
+  });
+
+  window.setInterval(() => {
+    noiseNodes.forEach((node, index) => {
+      const currentIndex = systemNoiseMessages.indexOf(node.textContent);
+      const nextIndex = (Math.max(currentIndex, 0) + index + 1) % systemNoiseMessages.length;
+      node.textContent = systemNoiseMessages[nextIndex];
+    });
+  }, 4200);
 }
