@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="VEIL, jeu d'infiltration 2D pixel art en développement par Lotys.">
+    <title>VEIL | Dossier classifie UFSSA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="intro" id="intro">
+      <div class="scanlines"></div>
+      <div class="intro-panel">
+        <p class="stamp type-line" data-type-text="UFSSA // ACCES RESTREINT"></p>
+        <h1 class="type-line" data-type-text="DOSSIER CLASSIFIE UFSSA"></h1>
+        <p class="type-line" data-type-text="Identite observee : Lotys. Projet en developpement : VEIL."></p>
+        <p class="intro-status" data-project-loader></p>
+        <button class="btn btn-primary" data-enter disabled>ACCEDER AU DOSSIER</button>
+      </div>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#accueil" aria-label="Retour a l'accueil">
+        <span class="brand-mark"></span>
+        <span>VEIL</span>
+      </a>
+      <button class="menu-toggle" data-menu aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" data-nav>
+        <a href="#histoire">Histoire</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#ufssa">UFSSA</a>
+        <a href="#developpement">Devlog</a>
+        <a href="#contact">Suivre</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section" id="accueil">
+        <div class="surveillance-grid"></div>
+        <div class="hero-content">
+          <div class="hero-copy">
+            <p class="kicker">DOSSIER 07-VEIL // CONFIDENTIEL</p>
+            <h1>VEIL</h1>
+            <p class="hero-line">Un jeu d'infiltration 2D ou chaque identite peut devenir une arme</p>
+            <p class="system-noise">EROR - PROJECT VEIL // TRACE LOST // IDENTITY STATUS: UNSTABLE</p>
+            <div class="button-row">
+              <a class="btn btn-primary" href="#concepts">Decouvrir le jeu</a>
+              <a class="btn btn-ghost" href="#histoire">Voir l'histoire</a>
+              <a class="btn btn-ghost" href="#developpement">Suivre le developpement</a>
+            </div>
+          </div>
+          <figure class="hero-logo">
+            <img src="assets/veil-logo.png" alt="Logo du jeu VEIL">
+          </figure>
+        </div>
+      </section>
+
+      <section class="section creator" id="createur">
+        <div class="section-heading">
+          <p class="kicker">CREATEUR IDENTIFIE</p>
+          <h2>Qui est Lotys ?</h2>
+        </div>
+        <div class="split">
+          <div>
+            <p>Lotys est un joueur passionne qui a toujours aime les jeux d'infiltration, les jeux narratifs et les univers mysterieux. Apres avoir passe beaucoup de temps a jouer, il a decide de creer son propre projet.</p>
+            <p>Son objectif est de construire un jeu original, accessible et rejouable, avec une vraie identite visuelle et un scenario rempli de revelations.</p>
+          </div>
+          <dl class="identity-card">
+            <div><dt>Createur</dt><dd>Lotys</dd></div>
+            <div><dt>Genre prefere</dt><dd>Infiltration</dd></div>
+            <div><dt>Style du jeu</dt><dd>2D pixel art</dd></div>
+            <div><dt>Moteur</dt><dd>Godot</dd></div>
+            <div><dt>Creation graphique</dt><dd>Aseprite</dd></div>
+            <div><dt>Statut</dt><dd>En developpement</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" id="histoire">
+        <div class="section-heading">
+          <p class="kicker">ARCHIVES NARRATIVES</p>
+          <h2>Chronologie</h2>
+        </div>
+        <div class="timeline" data-accordion="single">
+          <article class="timeline-item is-open">
+            <button class="timeline-trigger">Le braquage</button>
+            <p>Le joueur arrive en helicoptere avec son equipe. Le but est de recuperer une mallette dans un coffre-fort. Elle contient les plans d'une arme experimentale.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">Le premier deguisement</button>
+            <p>Deux gardes surveillent l'entree. L'equipe neutralise l'un d'eux. Le joueur doit isoler le second, prendre son uniforme et entrer dans le batiment.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">Le VIP</button>
+            <p>Le coffre-fort est protege par plusieurs gardes. Seuls les VIP peuvent entrer. Le joueur doit attirer un haut place dans les toilettes, neutraliser son garde du corps et lui voler son identite.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">La mallette</button>
+            <p>Grace au deguisement du VIP, les gardes ouvrent l'acces au coffre. Le joueur recupere la mallette.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">La trahison</button>
+            <p>L'alarme se declenche. Une course-poursuite commence. Le joueur prend une balle dans la jambe, mais reussit a s'echapper.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">La UFSSA</button>
+            <p>Plus tard, la UFSSA retrouve le joueur grace au traceur cache dans la balle. Elle lui impose de travailler pour elle.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">Le doute</button>
+            <p>Au fil des missions, le joueur decouvre que les dossiers de la UFSSA sont incomplets et parfois mensongers.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">Le plan de fuite</button>
+            <p>Le joueur commence a cacher de l'argent, blanchir ses fonds, obtenir de faux papiers et preparer sa disparition.</p>
+          </article>
+          <article class="timeline-item">
+            <button class="timeline-trigger">La derniere nuit</button>
+            <p>A la fin du jeu, le joueur s'enfuit du siege de la UFSSA pendant la nuit. La mission commence en infiltration vue de dessus et se termine en course-poursuite vue de cote.</p>
+          </article>
+        </div>
+        <p class="system-noise">EROR - PROJECT VEIL // ARCHIVE CORRUPTED // 09 FRAGMENTS FOUND</p>
+      </section>
+
+      <section class="section" id="concepts">
+        <div class="section-heading">
+          <p class="kicker">SYSTEMES DE JEU</p>
+          <h2>Concepts</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>Infiltration</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Observer les rondes, trouver les zones isolees, attirer les gardes, recuperer des uniformes, cacher les corps et eviter les temoins.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Deguisements</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Le joueur peut prendre l'identite d'un garde, d'un employe, d'un technicien, d'un cuisinier ou d'un VIP. Chaque tenue donne acces a certaines zones.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Fuites</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Certaines missions se terminent par une fuite en vue de cote. Le personnage avance rapidement et doit sauter, glisser, esquiver des obstacles et eviter les tirs.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Argent et blanchiment</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Le joueur gagne de l'argent pendant les missions. Il doit le blanchir pour preparer sa fuite. Plus il blanchit vite, plus le risque de controle augmente.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Suspicion</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>La UFSSA surveille le joueur. Une jauge de suspicion peut augmenter selon ses choix. Si elle atteint un niveau eleve, l'agence peut saisir une partie de son argent.</p>
+          </article>
+          <article class="feature-card">
+            <h3>Missions rejouables</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Chaque mission propose plusieurs chemins, plusieurs deguisements, des evenements variables et plusieurs methodes pour atteindre l'objectif.</p>
+          </article>
+          <article class="feature-card score-card">
+            <h3>Score de mission</h3>
+            <button class="tiny-btn" data-toggle>En savoir plus</button>
+            <p>Le classement depend du nombre d'alertes, de temoins, de corps decouverts, du temps et de la discretion.</p>
+            <ul>
+              <li>Fantome</li>
+              <li>Assassin silencieux</li>
+              <li>Professionnel</li>
+              <li>Nettoyeur</li>
+              <li>Chaos</li>
+            </ul>
+          </article>
+        </div>
+        <p class="system-noise">EROR - PROJECT VEIL // UNAUTHORIZED PROFILE CHANGE</p>
+      </section>
+
+      <section class="section art-direction" id="direction-artistique">
+        <div class="section-heading">
+          <p class="kicker">DIRECTION ARTISTIQUE</p>
+          <h2>Lisible, froide, selective</h2>
+        </div>
+        <div class="split">
+          <ul class="statement-list">
+            <li>Les civils sont entierement blancs et sans visage.</li>
+            <li>Les personnages importants et les cibles ont une peau, des cheveux, un visage et des couleurs.</li>
+            <li>Le heros a des yeux rouges discrets qui permettent de le reconnaitre.</li>
+            <li>Les vetements changent selon les metiers et les deguisements.</li>
+            <li>Les niveaux utilisent une perspective vue de dessus legerement inclinee.</li>
+            <li>Les couleurs de la UFSSA sont sombres, froides et institutionnelles.</li>
+          </ul>
+          <div class="gallery preview-gallery">
+            <button class="gallery-tile hero-sprite" data-modal="Le heros" data-sprites="hero">Le heros</button>
+            <button class="gallery-tile civilian-sprite" data-modal="Les civils" data-sprites="civils">Les civils</button>
+            <button class="gallery-tile identity-sprite" data-modal="Personnes dont tu peux voler l'identite" data-sprites="identity">Identite recuperable</button>
+            <button class="gallery-tile target-sprite" data-modal="Les cibles">Les cibles</button>
+            <button class="gallery-tile escape-sprite" data-modal="Les sequences de fuite">Fuites</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section colors" id="couleurs">
+        <div class="section-heading">
+          <p class="kicker">CODE VISUEL</p>
+          <h2>Systeme de couleurs</h2>
+        </div>
+        <p class="color-summary">Le blanc represente les civils, le jaune les personnages dont on peut usurper l'identite, le rouge les cibles, et le vert le heros. Ces couleurs servent a comprendre rapidement qui est neutre, utile, dangereux ou controle par le joueur.</p>
+      </section>
+
+      <section class="section ufssa" id="ufssa">
+        <div class="section-heading">
+          <p class="kicker">AGENCE RESPONSABLE</p>
+          <h2>United Federal Security Services Agency</h2>
+        </div>
+        <p>Une agence gouvernementale secrete officiellement chargee de proteger les United Federal States. Elle controle les operations clandestines, les dossiers sensibles, les missions d'infiltration et les menaces internationales. Au fil du jeu, le joueur decouvre que l'agence manipule certaines informations et utilise ses agents comme des outils.</p>
+        <button class="btn btn-primary" data-services>Voir les services de la UFSSA</button>
+        <div class="services" data-services-panel>
+          <span>Armurerie</span>
+          <span>Salle de briefing</span>
+          <span>Archives</span>
+          <span>Salle des preuves</span>
+          <span>Salle informatique</span>
+          <span>Bureau du directeur</span>
+          <span>Laboratoire</span>
+          <span>Securite interne</span>
+        </div>
+        <p class="system-noise">EROR - PROJECT VEIL // DIRECTOR ACCESS DENIED</p>
+      </section>
+
+      <section class="section development" id="developpement">
+        <div class="section-heading">
+          <p class="kicker">SUIVI INTERNE</p>
+          <h2>Developpement</h2>
+        </div>
+        <ol class="dev-list">
+          <li>Idee du jeu</li>
+          <li>Creation de l'univers</li>
+          <li>Creation de la UFSSA</li>
+          <li>Premiere direction artistique</li>
+          <li>Premiers tilesets</li>
+          <li>Premiers personnages</li>
+          <li>Prototype Godot</li>
+          <li>Systeme d'infiltration</li>
+          <li>Systeme de deguisements</li>
+          <li>Premiere mission jouable</li>
+        </ol>
+        <div class="progress-control">
+          <label for="progress">Progression du prototype</label>
+          <input id="progress" type="range" min="0" max="100" value="10" disabled>
+          <strong data-progress-label>10%</strong>
+        </div>
+      </section>
+
+      <section class="section" id="galerie">
+        <div class="section-heading">
+          <p class="kicker">PIECES JOINTES</p>
+          <h2>Galerie</h2>
+        </div>
+        <div class="gallery large-gallery">
+          <button class="gallery-tile" data-modal="Sprites">Sprites</button>
+          <button class="gallery-tile" data-modal="Tilesets">Tilesets</button>
+          <button class="gallery-tile" data-modal="Concepts">Concepts</button>
+          <button class="gallery-tile" data-modal="Logos">Logos</button>
+          <button class="gallery-tile" data-modal="Captures Godot">Captures Godot</button>
+          <button class="gallery-tile" data-modal="Missions">Missions</button>
+          <button class="gallery-tile" data-modal="Personnages">Personnages</button>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq">
+        <div class="section-heading">
+          <p class="kicker">QUESTIONS OUVERTES</p>
+          <h2>FAQ</h2>
+        </div>
+        <div class="faq-list" data-accordion>
+          <article class="faq-item">
+            <button>Le jeu sera-t-il en 3D ?</button>
+            <p>Non. Le jeu sera en 2D pixel art avec une vue de dessus pour l'infiltration et une vue de cote pour les fuites.</p>
+          </article>
+          <article class="faq-item">
+            <button>Peut-on voler des identites ?</button>
+            <p>Oui. Le joueur peut neutraliser certains PNJ dans des zones isolees et recuperer leur uniforme.</p>
+          </article>
+          <article class="faq-item">
+            <button>Les missions auront-elles plusieurs solutions ?</button>
+            <p>Oui. Le joueur pourra utiliser les deguisements, les distractions, les gadgets, les accidents ou la force.</p>
+          </article>
+          <article class="faq-item">
+            <button>Le jeu sera-t-il rejouable ?</button>
+            <p>Oui. Les routines, certains objets, les positions et certains evenements pourront varier.</p>
+          </article>
+          <article class="faq-item">
+            <button>Pourquoi les civils sont-ils blancs ?</button>
+            <p>Pour rendre les personnages importants immediatement reconnaissables et donner au jeu une identite visuelle forte.</p>
+          </article>
+          <article class="faq-item">
+            <button>Le jeu est-il deja termine ?</button>
+            <p>Non. Il est encore en developpement.</p>
+          </article>
+        </div>
+        <p class="system-noise">EROR - PROJECT VEIL // ANSWERS PARTIALLY REDACTED</p>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="section-heading">
+          <p class="kicker">TRANSMISSION</p>
+          <h2>Suivre Lotys et le developpement du jeu</h2>
+        </div>
+        <div class="socials">
+          <a href="https://www.youtube.com/@lotysYT" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
+          <a href="#" aria-label="TikTok">TikTok</a>
+          <a href="https://discord.gg/RE3DDBH5W" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
+          <a href="https://x.com/ytlotys" target="_blank" rel="noopener noreferrer" aria-label="X">X</a>
+        </div>
+        <p class="system-noise footer-noise">EROR - PROJECT VEIL // FILE NOT CLOSED // AGENT STILL ACTIVE</p>
+      </section>
+    </main>
+
+    <div class="modal" data-modal-panel aria-hidden="true">
+      <button class="modal-close" data-modal-close aria-label="Fermer">x</button>
+      <div class="modal-content">
+        <div class="modal-visual" data-modal-visual></div>
+        <h2 data-modal-title>Piece jointe</h2>
+        <div data-modal-body>
+          <p>Emplacement pret a remplacer par une image, un sprite, une capture Godot ou un concept art.</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
