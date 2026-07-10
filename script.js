@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "EROR - PROJECT VEIL // SURVEILLANCE LOOP ACTIVE",
   ];
 
+  setupIntroButton();
   runIntroSequence();
   setupMenu();
   setupAccordions();
@@ -30,6 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
   setupProgress();
   setupHeroLogoScroll();
   setupSystemNoise();
+
+  function setupIntroButton() {
+    if (!intro || !enterButton) return;
+
+    enterButton.disabled = false;
+    enterButton.addEventListener("click", () => {
+      intro.classList.add("is-hidden");
+    });
+  }
 
   function setupMenu() {
     if (!menuButton || !nav) return;
@@ -241,7 +251,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     await runProjectLoader();
     intro.classList.add("is-ready");
-    enterButton.disabled = false;
   }
 
   async function typeText(element, text, speed) {
