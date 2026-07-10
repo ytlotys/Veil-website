@@ -1,31 +1,32 @@
-# VEIL - site vitrine
+# VEIL
 
-Site statique pour le jeu independant de Lotys.
+**VEIL** est un jeu d'infiltration 2D en pixel art, en cours de developpement par **Lotys**.
 
-## Ouvrir le site
+Le projet suit un ancien membre d'une organisation criminelle force de collaborer avec la **UFSSA**, une agence secrete fictive. Entre infiltration, deguisements, missions rejouables et fuite preparee dans l'ombre, le joueur doit choisir comment survivre sans perdre son identite.
 
-Ouvre `index.html` dans un navigateur.
+## Le site
 
-## Modifier les liens sociaux
+Ce site presente l'univers de VEIL sous forme de dossier classifie :
 
-Dans `index.html`, remplace les `href="#"` de la section `contact` par les vrais liens YouTube, TikTok, Discord et X.
+- histoire et chronologie du jeu ;
+- concepts de gameplay ;
+- direction artistique ;
+- spritesheets et visuels disponibles ;
+- informations sur le developpement ;
+- liens officiels de Lotys.
 
-## Ajouter des images
+## Statut
 
-Place les fichiers dans un dossier `assets/`, puis remplace les tuiles de galerie par des balises `img` ou des fonds CSS.
+Le jeu et le site sont encore en developpement. Certaines sections peuvent donc contenir des emplacements temporaires ou des messages indiquant que les visuels arriveront plus tard.
 
-## Mettre sur GitHub Pages
+## Liens
 
-1. Cree un nouveau depot GitHub, par exemple `veil`.
-2. Ajoute tout le contenu du dossier du site : `index.html`, `styles.css`, `script.js`, `assets/` et ce `README.md`.
-3. Attention : mets bien `index.html` a la racine du depot, pas dans un sous-dossier.
-4. Dans GitHub, ouvre `Settings`, puis `Pages`.
-5. Dans `Build and deployment`, choisis `Deploy from a branch`.
-6. Choisis la branche `main` et le dossier `/ root`.
-7. Le site sera ensuite disponible a une adresse du type `https://tonpseudo.github.io/veil/`.
+- YouTube : https://www.youtube.com/@lotysYT
+- Discord : https://discord.gg/RE3DDBH5W
+- X : https://x.com/ytlotys
 
-## A propos de l'URL locale
+## Droits
 
-Quand tu ouvres le fichier directement sur ton ordinateur, le navigateur affiche une adresse qui commence par `file:///Users/...`. C'est normal : c'est le chemin complet du fichier local.
+Les sprites, logos, images et textes lies a VEIL appartiennent au projet et ne sont pas libres d'utilisation.
 
-Pour avoir une URL propre, il faut publier le site, par exemple avec GitHub Pages.
+Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les integrer dans un autre projet.
