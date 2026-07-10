@@ -15,12 +15,18 @@ enterButton.addEventListener("click", () => {
   intro.classList.add("is-hidden");
 });
 
-document.querySelector("[data-menu]").addEventListener("click", () => {
-  nav.classList.toggle("is-open");
+const menuButton = document.querySelector("[data-menu]");
+
+menuButton.addEventListener("click", () => {
+  const isOpen = nav.classList.toggle("is-open");
+  menuButton.setAttribute("aria-expanded", String(isOpen));
 });
 
 document.querySelectorAll(".main-nav a").forEach((link) => {
-  link.addEventListener("click", () => nav.classList.remove("is-open"));
+  link.addEventListener("click", () => {
+    nav.classList.remove("is-open");
+    menuButton.setAttribute("aria-expanded", "false");
+  });
 });
 
 document.querySelectorAll("[data-accordion], [data-accordion='single']").forEach((group) => {

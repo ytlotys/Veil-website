@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=2">
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.css?v=6">
   </head>
   <body>
     <div class="intro" id="intro">
@@ -29,15 +29,21 @@
         <span class="brand-mark"></span>
         <span>VEIL</span>
       </a>
-      <button class="menu-toggle" data-menu aria-label="Ouvrir le menu">
+      <button class="menu-toggle" data-menu aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
       <nav class="main-nav" data-nav>
+        <a href="#createur">Lotys</a>
         <a href="#histoire">Histoire</a>
         <a href="#concepts">Concepts</a>
+        <a href="#direction-artistique">DA</a>
+        <a href="#couleurs">Couleurs</a>
         <a href="#ufssa">UFSSA</a>
         <a href="#developpement">Devlog</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#faq">FAQ</a>
         <a href="#contact">Suivre</a>
+        <a href="#credits">Credits</a>
       </nav>
     </header>
 
@@ -263,13 +269,13 @@
           <h2>Galerie</h2>
         </div>
         <div class="gallery large-gallery">
-          <button class="gallery-tile" data-modal="Spritesheets" data-gallery="sprites">Spritesheets</button>
-          <button class="gallery-tile" data-modal="Tilesets" data-gallery="empty">Tilesets</button>
-          <button class="gallery-tile" data-modal="Concepts" data-gallery="empty">Concepts</button>
-          <button class="gallery-tile" data-modal="Logo VEIL" data-gallery="logos">Logo VEIL</button>
-          <button class="gallery-tile" data-modal="Captures Godot" data-gallery="empty">Captures Godot</button>
-          <button class="gallery-tile" data-modal="Missions" data-gallery="empty">Missions</button>
-          <button class="gallery-tile" data-modal="Personnages" data-gallery="empty">Personnages</button>
+          <button class="gallery-tile gallery-sprites" data-modal="Spritesheets" data-gallery="sprites">Spritesheets</button>
+          <button class="gallery-tile gallery-tilesets" data-modal="Tilesets" data-gallery="empty">Tilesets</button>
+          <button class="gallery-tile gallery-concepts" data-modal="Concepts" data-gallery="empty">Concepts</button>
+          <button class="gallery-tile gallery-logos" data-modal="Logo VEIL" data-gallery="logos">Logo VEIL</button>
+          <button class="gallery-tile gallery-captures" data-modal="Captures Godot" data-gallery="empty">Captures Godot</button>
+          <button class="gallery-tile gallery-missions" data-modal="Missions" data-gallery="empty">Missions</button>
+          <button class="gallery-tile gallery-characters" data-modal="Personnages" data-gallery="empty">Personnages</button>
         </div>
       </section>
 
@@ -319,6 +325,16 @@
           <a href="https://x.com/ytlotys" target="_blank" rel="noopener noreferrer" aria-label="X">X</a>
         </div>
         <p class="system-noise footer-noise">EROR - PROJECT VEIL // FILE NOT CLOSED // AGENT STILL ACTIVE</p>
+      </section>
+
+      <section class="section credits" id="credits">
+        <div class="section-heading">
+          <p class="kicker">CREDITS</p>
+          <h2>Credits</h2>
+        </div>
+        <div class="credits-card">
+          <p><strong>Rory Mitchell</strong> pour la template du character en top down view.</p>
+        </div>
       </section>
     </main>
 

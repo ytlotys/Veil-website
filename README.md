@@ -30,3 +30,7 @@ Le jeu et le site sont encore en developpement. Certaines sections peuvent donc 
 Les sprites, logos, images et textes lies a VEIL appartiennent au projet et ne sont pas libres d'utilisation.
 
 Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les integrer dans un autre projet.
+
+## Credits
+
+- Rory Mitchell pour la template du character en top down view.

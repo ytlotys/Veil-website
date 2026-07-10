@@ -23,10 +23,13 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
   background:
     linear-gradient(rgba(143, 29, 38, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(143, 29, 38, 0.05) 1px, transparent 1px),
@@ -36,6 +39,10 @@ body {
   font-family: Rajdhani, "Segoe UI", Arial, Helvetica, sans-serif;
   font-size: 1.04rem;
   line-height: 1.65;
+}
+
+img {
+  max-width: 100%;
 }
 
 body::before {
@@ -199,6 +206,13 @@ h3 {
   border-bottom: 1px solid var(--line);
   background: rgba(5, 6, 7, 0.84);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+@supports not ((backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px))) {
+  .site-header {
+    background: rgba(5, 6, 7, 0.96);
+  }
 }
 
 .brand {
@@ -218,9 +232,12 @@ h3 {
 .main-nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.7rem, 2vw, 1.4rem);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem clamp(0.55rem, 1.4vw, 1rem);
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: clamp(0.78rem, 1vw, 0.93rem);
+  line-height: 1.2;
 }
 
 .main-nav a:hover {
@@ -253,6 +270,7 @@ h3 {
 .hero {
   position: relative;
   width: 100%;
+  min-height: calc(100vh - 58px);
   min-height: calc(100svh - 58px);
   overflow: hidden;
   display: grid;
@@ -553,6 +571,45 @@ dd {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.large-gallery .gallery-tile {
+  min-height: 176px;
+  padding: 6.4rem 1rem 1.2rem;
+  align-items: flex-end;
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.large-gallery .gallery-tile::before {
+  top: 38%;
+  width: 76px;
+  height: 58px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 2px rgba(211, 58, 69, 0.18);
+}
+
+.large-gallery .gallery-tile::after {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.78);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.gallery-sprites::after { content: "SPR"; }
+.gallery-tilesets::after { content: "MAP"; }
+.gallery-concepts::after { content: "ART"; }
+.gallery-logos::after { content: "VEIL"; }
+.gallery-captures::after { content: "GDT"; }
+.gallery-missions::after { content: "MIS"; }
+.gallery-characters::after { content: "PNJ"; }
+
 .gallery-tile {
   position: relative;
   display: flex;
@@ -802,6 +859,18 @@ input[type="range"]:disabled {
   text-transform: uppercase;
 }
 
+.credits-card {
+  max-width: 820px;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background: rgba(17, 19, 22, 0.78);
+  color: var(--muted);
+}
+
+.credits-card p {
+  margin: 0;
+}
+
 .modal-close {
   position: fixed;
   right: 1rem;
@@ -816,27 +885,41 @@ input[type="range"]:disabled {
 }
 
 @media (max-width: 860px) {
+  body {
+    font-size: 1rem;
+  }
+
+  .site-header {
+    align-items: center;
+    min-height: 60px;
+  }
+
   .menu-toggle {
     display: block;
+    flex: 0 0 auto;
+    border-radius: 4px;
+    cursor: pointer;
   }
 
   .main-nav {
     position: absolute;
     inset: 100% 0 auto;
     display: none;
-    flex-direction: column;
-    align-items: stretch;
-    padding: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    padding: 0.85rem 1rem 1rem;
     background: rgba(5, 6, 7, 0.96);
     border-bottom: 1px solid var(--line);
   }
 
   .main-nav.is-open {
-    display: flex;
+    display: grid;
   }
 
   .main-nav a {
-    padding: 0.7rem 0;
+    padding: 0.7rem 0.65rem;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .split,
@@ -852,7 +935,8 @@ input[type="range"]:disabled {
   .hero-content {
     grid-template-columns: 1fr;
     align-items: start;
-    padding-top: 10vh;
+    padding-top: 9vh;
+    padding-bottom: 8vh;
   }
 
   .hero-logo {
@@ -864,6 +948,10 @@ input[type="range"]:disabled {
   .large-gallery,
   .services {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .large-gallery .gallery-tile {
+    min-height: 150px;
   }
 
   .sprite-sheet-grid {
@@ -879,9 +967,37 @@ input[type="range"]:disabled {
     grid-template-columns: 1fr;
   }
 
+  .modal {
+    align-items: start;
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    margin-top: 4.5rem;
+  }
+
 }
 
 @media (max-width: 520px) {
+  h1 {
+    font-size: clamp(3.1rem, 18vw, 4.4rem);
+  }
+
+  h2 {
+    font-size: clamp(1.85rem, 11vw, 2.8rem);
+  }
+
+  .section {
+    width: min(100% - 24px, var(--max));
+    padding: 3.4rem 0;
+  }
+
+  .main-nav {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+  }
+
   .button-row,
   .socials {
     flex-direction: column;
@@ -903,7 +1019,42 @@ input[type="range"]:disabled {
   }
 
   .hero-content {
-    padding-bottom: 9vh;
+    width: min(100% - 24px, var(--max));
+    padding-top: 7vh;
+    padding-bottom: 7vh;
+  }
+
+  .hero-logo {
+    width: min(100%, 260px);
+  }
+
+  .identity-card div {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  dd {
+    text-align: left;
+  }
+
+  .modal {
+    padding: 0.75rem;
+  }
+
+  .modal-visual,
+  .sprite-sheet-grid,
+  .logo-preview,
+  .empty-gallery-message {
+    min-height: 240px;
+  }
+
+  .sprite-sheet-grid img {
+    max-height: 240px;
+  }
+
+  .modal-close {
+    right: 0.75rem;
+    top: 0.75rem;
   }
 }
 
