@@ -93,6 +93,52 @@ document.querySelectorAll("[data-modal]").forEach((tile) => {
         <p>Ce personnage fait partie des identites recuperables. Le joueur peut l'isoler, neutraliser le garde, puis usurper son identite pour acceder a certaines zones.</p>
         <p class="rights-warning">UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL. Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les integrer dans un autre projet.</p>
       `;
+    } else if (tile.dataset.gallery === "sprites") {
+      modalVisual.innerHTML = `
+        <div class="sprite-sheet-grid all-sprites-grid">
+          <figure>
+            <img src="assets/heros-base.png" alt="Spritesheet du heros en tenue de base">
+            <figcaption>Heros - base</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/heros-militaire.png" alt="Spritesheet du heros en tenue militaire">
+            <figcaption>Heros - militaire</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/pnj-1.png" alt="Spritesheet civil rouge">
+            <figcaption>Civil rouge</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/pnj-2.png" alt="Spritesheet civil bleu">
+            <figcaption>Civil bleu</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/pnj-3.png" alt="Spritesheet civil vert">
+            <figcaption>Civil vert</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/pnj-militaire.png" alt="Spritesheet d'un garde militaire">
+            <figcaption>Garde militaire</figcaption>
+          </figure>
+        </div>
+      `;
+      modalBody.innerHTML = `
+        <p class="rights-warning">UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL. Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les integrer dans un autre projet.</p>
+      `;
+    } else if (tile.dataset.gallery === "logos") {
+      modalVisual.innerHTML = `
+        <div class="logo-preview">
+          <img src="assets/veil-logo.png" alt="Logo principal de VEIL">
+        </div>
+      `;
+      modalBody.innerHTML = "<p>Logo principal utilise a l'arrivee sur le site.</p>";
+    } else if (tile.dataset.gallery === "empty") {
+      modalVisual.innerHTML = `
+        <div class="empty-gallery-message">
+          <p>Il n'y a pas encore d'image ici. Revenez plus tard, le site est encore en cours de developpement.</p>
+        </div>
+      `;
+      modalBody.innerHTML = "";
     } else {
       modalVisual.innerHTML = "";
       modalBody.innerHTML = "<p>Emplacement pret a remplacer par une image, un sprite, une capture Godot ou un concept art.</p>";

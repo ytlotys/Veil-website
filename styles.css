@@ -760,6 +760,38 @@ input[type="range"]:disabled {
   grid-template-columns: 1fr;
 }
 
+.all-sprites-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.logo-preview,
+.empty-gallery-message {
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.logo-preview img {
+  display: block;
+  width: min(100%, 360px);
+  max-height: 520px;
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.empty-gallery-message p {
+  max-width: 520px;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid rgba(211, 58, 69, 0.44);
+  background: rgba(143, 29, 38, 0.12);
+  color: var(--muted);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .rights-warning {
   margin: 0;
   padding: 0.9rem 1rem;
@@ -835,6 +867,11 @@ input[type="range"]:disabled {
   }
 
   .sprite-sheet-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .all-sprites-grid,
+  .hero-sheet-grid {
     grid-template-columns: 1fr;
   }
 
