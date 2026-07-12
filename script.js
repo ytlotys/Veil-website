@@ -618,7 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Avec le gang de ta mafia, vous allez subtiliser une mallette lors d'une soiree privee. Elle contient les plans d'une arme revolutionnaire. Mais en vous echappant, vous allez recevoir une balle qui va vous tracer et vous forcer a travailler pour l'UFSSA.", "With your mafia gang, you steal a briefcase during a private party. It contains the plans for a revolutionary weapon. But while escaping, you are shot with a bullet that tracks you and forces you to work for the UFSSA."],
       ["Le manoir", "The manor"],
       ["Vous allez devoir eliminer le chef de votre mafia dans son manoir aux Philippines. Apres l'avoir tue, vous regardez son ordinateur laisse ouvert sur une page UF Bank.", "You must eliminate the head of your mafia in his manor in the Philippines. After killing him, you look at his computer, left open on a UF Bank page."],
-      ["Dumbai", "Dumbai"],
+      ["Mubdaï", "Mubdaï"],
       ["Newchorc City", "Newchorc City"],
       ["Le data-center", "The data center"],
       ["Une ile dans les Caraibes", "An island in the Caribbean"],
