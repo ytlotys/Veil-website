@@ -11,8 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroLogos = document.querySelectorAll(".hero-logo, .hero-wordmark");
   const progress = document.querySelector("#progress");
   const progressLabel = document.querySelector("[data-progress-label]");
-  let currentLang = window.localStorage.getItem("veil-language") || "fr";
-  let currentTheme = window.localStorage.getItem("veil-theme") || "classified";
+  window.localStorage.removeItem("veil-language");
+  window.localStorage.removeItem("veil-theme");
+
+  let currentLang = "fr";
+  let currentTheme = "classified";
 
   const textMap = createTextMap();
 
@@ -44,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-theme-choice]").forEach((button) => {
       button.addEventListener("click", () => {
         currentTheme = button.dataset.themeChoice || "classified";
-        window.localStorage.setItem("veil-theme", currentTheme);
         applyTheme(currentTheme);
         menu.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-lang-button]").forEach((button) => {
       button.addEventListener("click", () => {
         currentLang = button.dataset.langButton || "fr";
-        window.localStorage.setItem("veil-language", currentLang);
         applyLanguage(currentLang);
       });
     });
@@ -408,13 +409,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!heroLogos.length) return;
 
     const updateLogo = () => {
+      const hero = document.querySelector(".hero");
+      const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
+      const start = Math.max(360, heroHeight * 0.42);
+      const end = start + 300;
+      const progress = Math.min(1, Math.max(0, (window.scrollY - start) / (end - start)));
+
       heroLogos.forEach((logo) => {
-        logo.classList.toggle("is-hidden-by-scroll", window.scrollY > 140);
+        logo.style.opacity = String(1 - progress);
+        logo.style.transform = `translateY(${28 * progress}px) scale(${1 - 0.04 * progress})`;
+        logo.style.filter = `blur(${3 * progress}px)`;
+        logo.style.pointerEvents = progress > 0.96 ? "none" : "";
       });
     };
 
     updateLogo();
     window.addEventListener("scroll", updateLogo, { passive: true });
+    window.addEventListener("resize", updateLogo);
   }
 
   function setupSystemNoise() {
