@@ -8,14 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalVisual = document.querySelector("[data-modal-visual]");
   const modalTitle = document.querySelector("[data-modal-title]");
   const modalBody = document.querySelector("[data-modal-body]");
-  const heroLogo = document.querySelector(".hero-logo");
+  const heroLogos = document.querySelectorAll(".hero-logo, .hero-wordmark");
   const progress = document.querySelector("#progress");
   const progressLabel = document.querySelector("[data-progress-label]");
   let currentLang = window.localStorage.getItem("veil-language") || "fr";
+  let currentTheme = window.localStorage.getItem("veil-theme") || "classified";
 
   const textMap = createTextMap();
 
   setupIntroButton();
+  setupStyleSwitch();
+  applyTheme(currentTheme);
   setupLanguageSwitch();
   applyLanguage(currentLang);
   runIntroSequence();
@@ -27,6 +30,70 @@ document.addEventListener("DOMContentLoaded", () => {
   setupProgress();
   setupHeroLogoScroll();
   setupSystemNoise();
+
+  function setupStyleSwitch() {
+    const toggle = document.querySelector("[data-style-toggle]");
+    const menu = document.querySelector("[data-style-menu]");
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", () => {
+      const isOpen = menu.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    document.querySelectorAll("[data-theme-choice]").forEach((button) => {
+      button.addEventListener("click", () => {
+        currentTheme = button.dataset.themeChoice || "classified";
+        window.localStorage.setItem("veil-theme", currentTheme);
+        applyTheme(currentTheme);
+        menu.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".style-switch")) {
+        menu.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function applyTheme(theme) {
+    document.body.dataset.theme = theme;
+    document.querySelectorAll("[data-theme-choice]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.themeChoice === theme);
+    });
+
+    if (theme === "virus") {
+      createVirusLayer();
+    } else {
+      removeVirusLayer();
+    }
+  }
+
+  function createVirusLayer() {
+    removeVirusLayer();
+    const layer = document.createElement("div");
+    layer.className = "virus-layer";
+
+    const bits = ["0101", "VEIL", "UFSSA", "ERR", "TRACE", "ID", "404", "RUN"];
+    for (let index = 0; index < 22; index += 1) {
+      const bit = document.createElement("span");
+      bit.className = "virus-bit";
+      bit.textContent = bits[index % bits.length];
+      bit.style.left = `${(index * 37) % 100}%`;
+      bit.style.animationDelay = `${(index % 9) * -0.7}s`;
+      bit.style.animationDuration = `${6 + (index % 5)}s`;
+      layer.appendChild(bit);
+    }
+
+    document.body.appendChild(layer);
+  }
+
+  function removeVirusLayer() {
+    document.querySelector(".virus-layer")?.remove();
+  }
 
   function setupLanguageSwitch() {
     document.querySelectorAll("[data-lang-button]").forEach((button) => {
@@ -338,10 +405,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setupHeroLogoScroll() {
-    if (!heroLogo) return;
+    if (!heroLogos.length) return;
 
     const updateLogo = () => {
-      heroLogo.classList.toggle("is-hidden-by-scroll", window.scrollY > 80);
+      heroLogos.forEach((logo) => {
+        logo.classList.toggle("is-hidden-by-scroll", window.scrollY > 140);
+      });
     };
 
     updateLogo();
@@ -478,6 +547,12 @@ document.addEventListener("DOMContentLoaded", () => {
       ["ACCEDER AU DOSSIER", "ACCESS FILE"],
       ["Retour a l'accueil", "Back to home"],
       ["Ouvrir le menu", "Open menu"],
+      ["STYLE", "STYLE"],
+      ["Classifié", "Classified"],
+      ["Hacker", "Hacker"],
+      ["Blackout", "Blackout"],
+      ["Virus", "Virus"],
+      ["Glacier", "Glacier"],
       ["Histoire", "Story"],
       ["Couleurs", "Colors"],
       ["Galerie", "Gallery"],
