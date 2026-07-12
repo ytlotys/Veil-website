@@ -11,11 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroLogos = document.querySelectorAll(".hero-logo, .hero-wordmark");
   const progress = document.querySelector("#progress");
   const progressLabel = document.querySelector("[data-progress-label]");
+  const spriteCanvas = document.querySelector("[data-sprite-canvas]");
+  const spriteSelect = document.querySelector("[data-sprite-select]");
+  const spriteFps = document.querySelector("[data-sprite-fps]");
+  const spriteFpsLabel = document.querySelector("[data-sprite-fps-label]");
   window.localStorage.removeItem("veil-language");
   window.localStorage.removeItem("veil-theme");
 
   let currentLang = "fr";
   let currentTheme = "classified";
+  let introRunId = 0;
 
   const textMap = createTextMap();
 
@@ -30,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupServices();
   setupModals();
   setupProgress();
+  setupSpriteDemo();
   setupHeroLogoScroll();
   setupSystemNoise();
   setupEntryReset();
@@ -122,6 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", () => {
         currentLang = button.dataset.langButton || "fr";
         applyLanguage(currentLang);
+        if (intro && !intro.classList.contains("is-hidden") && !intro.classList.contains("is-ready")) {
+          runIntroSequence();
+        }
       });
     });
   }
@@ -389,35 +398,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function setupSpriteDemo() {
+    if (!spriteCanvas || !spriteSelect || !spriteFps || !spriteFpsLabel) return;
+
+    const context = spriteCanvas.getContext("2d");
+    if (!context) return;
+
+    context.imageSmoothingEnabled = false;
+    const frameSize = 64;
+    const image = new Image();
+    let frame = 0;
+    let frameCount = 1;
+    let columns = 1;
+    let lastFrameTime = 0;
+
+    const updateFpsLabel = () => {
+      spriteFpsLabel.textContent = `${spriteFps.value} FPS`;
+    };
+
+    const drawFrame = () => {
+      if (!image.complete || !image.naturalWidth) return;
+      const sourceX = (frame % columns) * frameSize;
+      const sourceY = Math.floor(frame / columns) * frameSize;
+
+      context.clearRect(0, 0, frameSize, frameSize);
+      context.drawImage(image, sourceX, sourceY, frameSize, frameSize, 0, 0, frameSize, frameSize);
+    };
+
+    const loadSprite = () => {
+      frame = 0;
+      image.src = spriteSelect.value;
+    };
+
+    image.addEventListener("load", () => {
+      columns = Math.max(1, Math.floor(image.naturalWidth / frameSize));
+      const rows = Math.max(1, Math.floor(image.naturalHeight / frameSize));
+      frameCount = columns * rows;
+      drawFrame();
+    });
+
+    const animate = (time) => {
+      const fps = Number(spriteFps.value) || 8;
+      const frameDuration = 1000 / fps;
+
+      if (time - lastFrameTime >= frameDuration) {
+        frame = (frame + 1) % frameCount;
+        drawFrame();
+        lastFrameTime = time;
+      }
+
+      window.requestAnimationFrame(animate);
+    };
+
+    spriteSelect.addEventListener("change", loadSprite);
+    spriteFps.addEventListener("input", updateFpsLabel);
+
+    updateFpsLabel();
+    loadSprite();
+    window.requestAnimationFrame(animate);
+  }
+
   async function runIntroSequence() {
     if (!intro || !enterButton || !projectLoader) return;
 
+    const runId = introRunId + 1;
+    introRunId = runId;
+    intro.classList.remove("is-ready");
     const lines = document.querySelectorAll("[data-type-text]");
+    projectLoader.textContent = "";
 
     for (const line of lines) {
-      await typeText(line, line.dataset.typeText || "", 24);
+      if (runId !== introRunId) return;
+      await typeText(line, line.dataset.typeText || "", 24, runId);
+      if (runId !== introRunId) return;
       await wait(160);
     }
 
-    await runProjectLoader();
+    await runProjectLoader(runId);
+    if (runId !== introRunId) return;
     intro.classList.add("is-ready");
   }
 
-  async function typeText(element, text, speed) {
+  async function typeText(element, text, speed, runId) {
     element.textContent = "";
 
     for (const letter of text) {
+      if (runId !== introRunId) return;
       element.textContent += letter;
       await wait(speed);
     }
   }
 
-  async function runProjectLoader() {
+  async function runProjectLoader(runId) {
     const frames = currentLang === "fr"
       ? ["PROJET_", "PROJET V_", "PROJET VE_", "PROJET VEI_", "PROJET VEIL_"]
       : ["PROJECT_", "PROJECT V_", "PROJECT VE_", "PROJECT VEI_", "PROJECT VEIL_"];
 
     for (const frame of frames) {
+      if (runId !== introRunId) return;
       projectLoader.textContent = frame;
       await wait(260);
     }
@@ -588,6 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Histoire", "Story"],
       ["Couleurs", "Colors"],
       ["Galerie", "Gallery"],
+      ["Démo sprite", "Sprite demo"],
       ["Suivre", "Follow"],
       ["Credits", "Credits"],
       ["DOSSIER 07-VEIL // CONFIDENTIEL", "FILE 07-VEIL // CONFIDENTIAL"],
@@ -701,6 +780,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Tilesets", "Tilesets"],
       ["Captures Godot", "Godot screenshots"],
       ["Personnages", "Characters"],
+      ["ANIMATION TEST", "ANIMATION TEST"],
+      ["Démo spritesheet", "Spritesheet demo"],
+      ["Spritesheet", "Spritesheet"],
+      ["Héros - base", "Hero - base"],
+      ["Héros - militaire", "Hero - military"],
+      ["Civil rouge", "Red civilian"],
+      ["Civil bleu", "Blue civilian"],
+      ["Civil vert", "Green civilian"],
+      ["Garde militaire", "Military guard"],
+      ["Découpe utilisée : 64x64 pixels. La démo sert uniquement à prévisualiser les sprites du projet.", "Frame cut: 64x64 pixels. This demo is only used to preview the project's sprites."],
+      ["UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL.", "USE FORBIDDEN WITHOUT PERMISSION. These sprites belong to the VEIL project."],
       ["QUESTIONS OUVERTES", "OPEN QUESTIONS"],
       ["Quelle est l'idée principale de VEIL ?", "What is the main idea behind VEIL?"],
       ["VEIL est un jeu d'infiltration où les identités, les déguisements et les choix du joueur changent la façon d'entrer, d'observer et de fuir.", "VEIL is a stealth game where identities, disguises, and player choices change how you enter, observe, and escape."],

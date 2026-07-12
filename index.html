@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=2">
-    <link rel="stylesheet" href="styles.css?v=17">
+    <link rel="stylesheet" href="styles.css?v=18">
   </head>
   <body>
     <div class="intro" id="intro">
@@ -25,6 +25,10 @@
         <p class="stamp type-line" data-type-text="UFSSA // ACCÈS RESTREINT" data-type-fr="UFSSA // ACCÈS RESTREINT" data-type-en="UFSSA // RESTRICTED ACCESS"></p>
         <h1 class="type-line" data-type-text="DOSSIER CLASSIFIÉ UFSSA" data-type-fr="DOSSIER CLASSIFIÉ UFSSA" data-type-en="UFSSA CLASSIFIED FILE"></h1>
         <p class="type-line" data-type-text="Identité observée : Lotys. Projet en développement : VEIL." data-type-fr="Identité observée : Lotys. Projet en développement : VEIL." data-type-en="Observed identity: Lotys. Project in development: VEIL."></p>
+        <div class="intro-language" aria-label="Choisir la langue de départ">
+          <button type="button" data-lang-button="fr" class="is-active">FR</button>
+          <button type="button" data-lang-button="en">EN</button>
+        </div>
         <p class="intro-status" data-project-loader></p>
         <button class="btn btn-primary" data-enter onclick="document.getElementById('intro')?.classList.add('is-hidden')">ACCÉDER AU DOSSIER</button>
       </div>
@@ -61,6 +65,7 @@
         <a href="#ufssa">UFSSA</a>
         <a href="#developpement">Devlog</a>
         <a href="#galerie">Galerie</a>
+        <a href="#sprite-demo">Démo sprite</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Suivre</a>
         <a href="#credits">Credits</a>
@@ -294,6 +299,36 @@
         </div>
       </section>
 
+      <section class="section sprite-demo" id="sprite-demo">
+        <div class="section-heading">
+          <p class="kicker">ANIMATION TEST</p>
+          <h2>Démo spritesheet</h2>
+        </div>
+        <div class="sprite-demo-panel">
+          <div class="sprite-stage">
+            <canvas width="64" height="64" data-sprite-canvas aria-label="Aperçu animé de la spritesheet"></canvas>
+          </div>
+          <div class="sprite-controls">
+            <label for="sprite-select">Spritesheet</label>
+            <select id="sprite-select" data-sprite-select>
+              <option value="assets/heros-base.png">Héros - base</option>
+              <option value="assets/heros-militaire.png">Héros - militaire</option>
+              <option value="assets/pnj-1.png">Civil rouge</option>
+              <option value="assets/pnj-2.png">Civil bleu</option>
+              <option value="assets/pnj-3.png">Civil vert</option>
+              <option value="assets/pnj-militaire.png">Garde militaire</option>
+            </select>
+            <label for="sprite-fps">FPS</label>
+            <div class="fps-row">
+              <input id="sprite-fps" type="range" min="1" max="24" value="8" data-sprite-fps>
+              <strong data-sprite-fps-label>8 FPS</strong>
+            </div>
+            <p>Découpe utilisée : 64x64 pixels. La démo sert uniquement à prévisualiser les sprites du projet.</p>
+            <p class="rights-warning">UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="section faq" id="faq">
         <div class="section-heading">
           <p class="kicker">QUESTIONS OUVERTES</p>
@@ -364,6 +399,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=17"></script>
+    <script src="script.js?v=18"></script>
   </body>
 </html>
