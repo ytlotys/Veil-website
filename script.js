@@ -19,11 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const textMap = createTextMap();
 
+  resetEntryPreferences();
   setupIntroButton();
   setupStyleSwitch();
-  applyTheme(currentTheme);
   setupLanguageSwitch();
-  applyLanguage(currentLang);
   runIntroSequence();
   setupMenu();
   setupAccordions();
@@ -33,6 +32,27 @@ document.addEventListener("DOMContentLoaded", () => {
   setupProgress();
   setupHeroLogoScroll();
   setupSystemNoise();
+  setupEntryReset();
+
+  function resetEntryPreferences() {
+    window.localStorage.removeItem("veil-language");
+    window.localStorage.removeItem("veil-theme");
+    currentLang = "fr";
+    currentTheme = "classified";
+    removeVirusLayer();
+    applyTheme(currentTheme);
+    applyLanguage(currentLang);
+  }
+
+  function setupEntryReset() {
+    window.addEventListener("pagehide", resetEntryPreferences);
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        resetEntryPreferences();
+        setupHeroLogoScroll();
+      }
+    });
+  }
 
   function setupStyleSwitch() {
     const toggle = document.querySelector("[data-style-toggle]");
@@ -411,11 +431,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const updateLogo = () => {
       const hero = document.querySelector(".hero");
       const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
-      const start = Math.max(360, heroHeight * 0.42);
-      const end = start + 300;
+      const start = Math.max(620, heroHeight * 0.72);
+      const end = start + 360;
       const progress = Math.min(1, Math.max(0, (window.scrollY - start) / (end - start)));
 
       heroLogos.forEach((logo) => {
+        logo.classList.remove("is-hidden-by-scroll");
         logo.style.opacity = String(1 - progress);
         logo.style.transform = `translateY(${28 * progress}px) scale(${1 - 0.04 * progress})`;
         logo.style.filter = `blur(${3 * progress}px)`;
