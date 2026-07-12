@@ -111,6 +111,13 @@ h2 {
   margin-bottom: 1rem;
 }
 
+h1::before,
+h1::after,
+h2::before,
+h2::after {
+  color: var(--red-hot);
+}
+
 h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
@@ -168,7 +175,7 @@ h3 {
   min-height: 1.4em;
   margin: 1.4rem 0 1.2rem;
   color: var(--blue);
-  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-family: "Courier New", "Lucida Console", monospace;
   font-size: clamp(0.9rem, 2.4vw, 1.1rem);
   text-transform: uppercase;
 }
@@ -1003,7 +1010,7 @@ body[data-theme="hacker"] {
     linear-gradient(90deg, rgba(57, 255, 136, 0.05) 1px, transparent 1px),
     #020603;
   background-size: 36px 36px;
-  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-family: "Courier New", "Lucida Console", monospace;
 }
 
 body[data-theme="hacker"] h1,
@@ -1013,8 +1020,57 @@ body[data-theme="hacker"] .brand,
 body[data-theme="hacker"] .btn,
 body[data-theme="hacker"] .main-nav,
 body[data-theme="hacker"] .gallery-tile {
-  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-family: "Courier New", "Lucida Console", monospace;
   text-shadow: 0 0 12px rgba(57, 255, 136, 0.42);
+}
+
+body[data-theme="hacker"] h1::before {
+  content: "PROJECT_";
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #39ff88;
+  font-size: clamp(0.9rem, 2.1vw, 1.3rem);
+  line-height: 1;
+}
+
+body[data-theme="hacker"] h1::after {
+  content: "_ACCESS-GRANTED";
+  display: block;
+  margin-top: 0.55rem;
+  color: #39ff88;
+  font-size: clamp(0.9rem, 2.1vw, 1.25rem);
+  line-height: 1;
+  animation: hacker-cursor 1s steps(2, end) infinite;
+}
+
+body[data-theme="hacker"] h2::before {
+  content: "//_";
+}
+
+body[data-theme="hacker"] h2::after {
+  content: "_";
+  animation: hacker-cursor 1s steps(2, end) infinite;
+}
+
+body[data-theme="hacker"] h2::before,
+body[data-theme="hacker"] h2::after,
+body[data-theme="blackout"] h2::before,
+body[data-theme="blackout"] h2::after,
+body[data-theme="virus"] h2::before,
+body[data-theme="virus"] h2::after,
+body[data-theme="glacier"] h2::before,
+body[data-theme="glacier"] h2::after {
+  font-size: 0.45em;
+  vertical-align: middle;
+}
+
+body[data-theme="hacker"] .kicker::before {
+  content: ">> ";
+}
+
+@keyframes hacker-cursor {
+  0%, 46% { opacity: 1; }
+  47%, 100% { opacity: 0; }
 }
 
 body[data-theme="hacker"] .system-noise,
@@ -1077,6 +1133,17 @@ body[data-theme="blackout"] {
   background:
     radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.08), transparent 22%),
     #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body[data-theme="blackout"] h1,
+body[data-theme="blackout"] h2,
+body[data-theme="blackout"] h3,
+body[data-theme="blackout"] .brand,
+body[data-theme="blackout"] .btn,
+body[data-theme="blackout"] .gallery-tile {
+  font-family: Impact, "Arial Black", Arial, sans-serif;
+  font-weight: 900;
 }
 
 body[data-theme="blackout"] .site-header,
@@ -1101,6 +1168,29 @@ body[data-theme="blackout"] .kicker,
 body[data-theme="blackout"] .system-noise {
   color: #fff;
   text-shadow: 0 0 18px rgba(255, 255, 255, 0.42);
+}
+
+body[data-theme="blackout"] h1::before,
+body[data-theme="blackout"] h2::before {
+  content: "- ";
+}
+
+body[data-theme="blackout"] h1::after,
+body[data-theme="blackout"] h2::after {
+  content: " -";
+  animation: blackout-fade 3s ease-in-out infinite;
+}
+
+body[data-theme="blackout"] h1::before,
+body[data-theme="blackout"] h1::after,
+body[data-theme="virus"] h1::before,
+body[data-theme="virus"] h1::after,
+body[data-theme="glacier"] h1::before,
+body[data-theme="glacier"] h1::after {
+  display: block;
+  margin: 0.35rem 0;
+  font-size: clamp(0.9rem, 2.2vw, 1.25rem);
+  line-height: 1;
 }
 
 body[data-theme="blackout"] .btn-primary,
@@ -1138,6 +1228,50 @@ body[data-theme="virus"] {
     radial-gradient(circle at 12% 18%, rgba(255, 75, 243, 0.16), transparent 16%),
     radial-gradient(circle at 82% 28%, rgba(57, 255, 136, 0.12), transparent 18%),
     #050207;
+  font-family: "Trebuchet MS", Tahoma, Arial, sans-serif;
+}
+
+body[data-theme="virus"] h1,
+body[data-theme="virus"] h2,
+body[data-theme="virus"] h3,
+body[data-theme="virus"] .brand,
+body[data-theme="virus"] .btn,
+body[data-theme="virus"] .gallery-tile {
+  font-family: Impact, "Arial Black", "Trebuchet MS", sans-serif;
+  text-shadow:
+    2px 0 rgba(255, 75, 243, 0.75),
+    -2px 0 rgba(57, 255, 136, 0.5);
+}
+
+body[data-theme="virus"] h1,
+body[data-theme="virus"] h2 {
+  animation: virus-title 2.8s steps(2, end) infinite;
+}
+
+body[data-theme="virus"] h1::before,
+body[data-theme="virus"] h2::before {
+  content: "ERR_";
+  color: #39ff88;
+}
+
+body[data-theme="virus"] h1::after,
+body[data-theme="virus"] h2::after {
+  content: "_CORRUPT";
+  color: #ff4bf3;
+}
+
+body[data-theme="virus"] .kicker::before {
+  content: "[INFECTED] ";
+  color: #39ff88;
+}
+
+@keyframes virus-title {
+  0%, 100% { transform: translate(0, 0) skewX(0deg); }
+  12% { transform: translate(2px, -1px) skewX(-4deg); }
+  14% { transform: translate(-2px, 1px) skewX(3deg); }
+  16%, 60% { transform: translate(0, 0) skewX(0deg); }
+  62% { transform: translate(1px, 0) skewX(2deg); }
+  64% { transform: translate(0, 0) skewX(0deg); }
 }
 
 .virus-layer {
@@ -1178,6 +1312,35 @@ body[data-theme="glacier"] {
     linear-gradient(90deg, rgba(143, 232, 255, 0.05) 1px, transparent 1px),
     #041016;
   background-size: 52px 52px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+body[data-theme="glacier"] h1,
+body[data-theme="glacier"] h2,
+body[data-theme="glacier"] h3,
+body[data-theme="glacier"] .brand,
+body[data-theme="glacier"] .btn,
+body[data-theme="glacier"] .gallery-tile {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  text-shadow: 0 0 18px rgba(143, 232, 255, 0.32);
+}
+
+body[data-theme="glacier"] h1::before,
+body[data-theme="glacier"] h2::before {
+  content: "[ICE-";
+  color: #8fe8ff;
+}
+
+body[data-theme="glacier"] h1::after,
+body[data-theme="glacier"] h2::after {
+  content: "-LOCK]";
+  color: #8fe8ff;
+}
+
+body[data-theme="glacier"] .kicker::before {
+  content: "FROST//";
+  color: #8fe8ff;
 }
 
 body[data-theme="glacier"] .feature-card,
