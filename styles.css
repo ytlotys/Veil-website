@@ -223,6 +223,36 @@ h3 {
   box-shadow: 0 0 0 5px rgba(211, 58, 69, 0.16), 0 0 28px rgba(211, 58, 69, 0.7);
 }
 
+.language-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.language-switch button {
+  min-width: 42px;
+  min-height: 34px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-weight: 800;
+}
+
+.language-switch button:last-child {
+  border-right: 0;
+}
+
+.language-switch button.is-active {
+  background: var(--red);
+  color: var(--ink);
+}
+
 .main-nav {
   display: flex;
   align-items: center;
@@ -287,6 +317,20 @@ h3 {
 
 .hero-copy {
   min-width: 0;
+}
+
+.hero-wordmark {
+  width: min(100%, 460px);
+  margin: 1.4rem 0 0;
+  padding: 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.92), rgba(178, 182, 181, 0.78));
+}
+
+.hero-wordmark img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .hero-logo {
@@ -818,12 +862,32 @@ input[type="range"]:disabled {
   padding: 1rem;
 }
 
+.logo-preview {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.logo-preview figure {
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+}
+
 .logo-preview img {
   display: block;
   width: min(100%, 360px);
   max-height: 520px;
   object-fit: contain;
   border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.logo-preview figcaption {
+  color: var(--muted);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-size: 0.78rem;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .empty-gallery-message p {
@@ -881,6 +945,7 @@ input[type="range"]:disabled {
   .site-header {
     align-items: center;
     min-height: 60px;
+    gap: 0.7rem;
   }
 
   .menu-toggle {

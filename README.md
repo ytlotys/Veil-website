@@ -11,7 +11,7 @@ Ce site presente l'univers de VEIL sous forme de dossier classifie :
 - histoire et chronologie du jeu ;
 - concepts de gameplay ;
 - direction artistique ;
-- spritesheets et visuels disponibles ;
+- spritesheets, logos et visuels disponibles ;
 - informations sur le developpement ;
 - liens officiels de Lotys.
 

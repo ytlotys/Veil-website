@@ -4,23 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="VEIL, jeu d'infiltration 2D pixel art en développement par Lotys.">
-    <title>VEIL | Dossier classifie UFSSA</title>
+    <title>VEIL | Dossier classifié UFSSA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=2">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=11">
   </head>
   <body>
     <div class="intro" id="intro">
       <div class="scanlines"></div>
       <div class="intro-panel">
-        <p class="stamp type-line" data-type-text="UFSSA // ACCES RESTREINT"></p>
-        <h1 class="type-line" data-type-text="DOSSIER CLASSIFIE UFSSA"></h1>
-        <p class="type-line" data-type-text="Identite observee : Lotys. Projet en developpement : VEIL."></p>
+        <p class="stamp type-line" data-type-text="UFSSA // ACCÈS RESTREINT" data-type-fr="UFSSA // ACCÈS RESTREINT" data-type-en="UFSSA // RESTRICTED ACCESS"></p>
+        <h1 class="type-line" data-type-text="DOSSIER CLASSIFIÉ UFSSA" data-type-fr="DOSSIER CLASSIFIÉ UFSSA" data-type-en="UFSSA CLASSIFIED FILE"></h1>
+        <p class="type-line" data-type-text="Identité observée : Lotys. Projet en développement : VEIL." data-type-fr="Identité observée : Lotys. Projet en développement : VEIL." data-type-en="Observed identity: Lotys. Project in development: VEIL."></p>
         <p class="intro-status" data-project-loader></p>
-        <button class="btn btn-primary" data-enter onclick="document.getElementById('intro')?.classList.add('is-hidden')">ACCEDER AU DOSSIER</button>
+        <button class="btn btn-primary" data-enter onclick="document.getElementById('intro')?.classList.add('is-hidden')">ACCÉDER AU DOSSIER</button>
       </div>
     </div>
 
@@ -29,6 +29,10 @@
         <span class="brand-mark"></span>
         <span>VEIL</span>
       </a>
+      <div class="language-switch" aria-label="Choix de la langue">
+        <button type="button" data-lang-button="fr" class="is-active">FR</button>
+        <button type="button" data-lang-button="en">EN</button>
+      </div>
       <button class="menu-toggle" data-menu aria-label="Ouvrir le menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -61,6 +65,9 @@
               <a class="btn btn-ghost" href="#histoire">Voir l'histoire</a>
               <a class="btn btn-ghost" href="#developpement">Suivre le developpement</a>
             </div>
+            <figure class="hero-wordmark">
+              <img src="assets/veil-wordmark.png" alt="Logo texte VEIL">
+            </figure>
           </div>
           <figure class="hero-logo">
             <img src="assets/veil-logo.png" alt="Logo du jeu VEIL">
@@ -286,28 +293,28 @@
         </div>
         <div class="faq-list" data-accordion>
           <article class="faq-item">
-            <button>Le jeu sera-t-il en 3D ?</button>
-            <p>Non. Le jeu sera en 2D pixel art avec une vue de dessus pour l'infiltration et une vue de cote pour les fuites.</p>
+            <button>Quelle est l'idée principale de VEIL ?</button>
+            <p>VEIL est un jeu d'infiltration où les identités, les déguisements et les choix du joueur changent la façon d'entrer, d'observer et de fuir.</p>
           </article>
           <article class="faq-item">
-            <button>Peut-on voler des identites ?</button>
-            <p>Oui. Le joueur peut neutraliser certains PNJ dans des zones isolees et recuperer leur uniforme.</p>
+            <button>Comment fonctionne l'usurpation d'identité ?</button>
+            <p>Certains personnages peuvent être isolés puis neutralisés. Le joueur récupère alors leur tenue pour accéder à des zones normalement interdites.</p>
           </article>
           <article class="faq-item">
-            <button>Les missions auront-elles plusieurs solutions ?</button>
-            <p>Oui. Le joueur pourra utiliser les deguisements, les distractions, les gadgets, les accidents ou la force.</p>
+            <button>Pourquoi la UFSSA surveille-t-elle le joueur ?</button>
+            <p>La UFSSA utilise le joueur comme agent forcé. Elle le surveille parce qu'il prépare aussi sa propre fuite en secret.</p>
           </article>
           <article class="faq-item">
-            <button>Le jeu sera-t-il rejouable ?</button>
-            <p>Oui. Les routines, certains objets, les positions et certains evenements pourront varier.</p>
+            <button>Peut-on mettre le site en anglais ?</button>
+            <p>Oui. Le bouton FR / EN en haut de la page permet de passer tout le site en français ou en anglais.</p>
           </article>
           <article class="faq-item">
-            <button>Pourquoi les civils sont-ils blancs ?</button>
-            <p>Pour rendre les personnages importants immediatement reconnaissables et donner au jeu une identite visuelle forte.</p>
+            <button>Pourquoi certaines images ne sont-elles pas encore disponibles ?</button>
+            <p>Le jeu est encore en développement. Les sections vides seront complétées quand de nouveaux sprites, tilesets ou concepts seront prêts.</p>
           </article>
           <article class="faq-item">
-            <button>Le jeu est-il deja termine ?</button>
-            <p>Non. Il est encore en developpement.</p>
+            <button>Où suivre l'avancement du projet ?</button>
+            <p>Les liens YouTube, Discord et X sont disponibles dans la section Suivre Lotys et le développement du jeu.</p>
           </article>
         </div>
         <p class="system-noise">EROR - PROJECT VEIL // ANSWERS PARTIALLY REDACTED</p>
@@ -349,6 +356,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=7"></script>
+    <script src="script.js?v=10"></script>
   </body>
 </html>
