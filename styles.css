@@ -795,28 +795,144 @@ dd {
   color: var(--muted);
 }
 
-.services {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.8rem;
+.ufssa-map {
+  position: relative;
   margin-top: 1.2rem;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-8px);
-  transition: max-height 360ms ease, opacity 260ms ease, transform 260ms ease;
+  overflow: visible;
+  border: 1px solid rgba(var(--red-hot-rgb), 0.34);
+  background: #020304;
 }
 
-.services.is-open {
-  max-height: 260px;
-  opacity: 1;
-  transform: translateY(0);
+.ufssa-map.is-hidden {
+  display: none;
 }
 
-.services span {
-  padding: 0.8rem;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
+.ufssa-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ufssa-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 48%, rgba(255, 255, 255, 0.035) 49%, transparent 50% 100%),
+    repeating-linear-gradient(0deg, transparent 0 18px, rgba(255, 255, 255, 0.025) 19px, transparent 20px);
+  mix-blend-mode: screen;
+  opacity: 0.35;
+}
+
+.map-deco,
+.map-corner {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.map-deco {
+  border: 1px solid rgba(var(--red-hot-rgb), 0.32);
+  color: rgba(var(--red-hot-rgb), 0.72);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.38);
+  text-shadow: 0 0 12px rgba(var(--red-hot-rgb), 0.34);
+}
+
+.map-deco-top {
+  left: 4.5%;
+  top: 3.8%;
+  padding: 0.34rem 0.55rem;
+  font-size: clamp(0.48rem, 1.1vw, 0.78rem);
+}
+
+.map-deco-stamp {
+  right: 5%;
+  bottom: 5.5%;
+  padding: 0.35rem 0.7rem;
+  font-size: clamp(0.56rem, 1.4vw, 0.95rem);
+  transform: rotate(-8deg);
+}
+
+.map-deco-code {
+  left: 38%;
+  bottom: 2.8%;
+  padding: 0.28rem 0.5rem;
+  font-size: clamp(0.45rem, 1vw, 0.68rem);
+  color: rgba(255, 255, 255, 0.58);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.map-corner {
+  width: 8%;
+  aspect-ratio: 1;
+  border-color: rgba(var(--red-hot-rgb), 0.48);
+}
+
+.map-corner-tl {
+  left: 2.6%;
+  top: 2.6%;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.map-corner-br {
+  right: 2.6%;
+  bottom: 2.6%;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+}
+
+.map-pin {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  z-index: 3;
+  width: 3.7%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: rgba(var(--red-rgb), 0.01);
+  box-shadow: none;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+.map-pin:hover,
+.map-pin:focus {
+  border-color: var(--red-hot);
+  background: rgba(var(--red-rgb), 0.2);
+  box-shadow: 0 0 0 4px rgba(var(--red-rgb), 0.16), 0 0 20px rgba(var(--red-hot-rgb), 0.42);
+  outline: none;
+}
+
+.map-popup {
+  position: absolute;
+  left: var(--x, 50%);
+  top: var(--y, 50%);
+  z-index: 4;
+  width: min(330px, calc(100% - 28px));
+  padding: 0.9rem;
+  border: 1px solid rgba(var(--red-hot-rgb), 0.62);
+  background: rgba(5, 6, 7, 0.94);
+  color: var(--muted);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.55);
+  transform: translate(-50%, calc(-100% - 22px));
+}
+
+.map-popup strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--ink);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.map-popup p {
+  margin: 0;
 }
 
 .dev-list {
@@ -1784,8 +1900,7 @@ body[data-theme="glacier"] .faq-item {
     max-height: 420px;
   }
 
-  .large-gallery,
-  .services {
+  .large-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 

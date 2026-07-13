@@ -249,10 +249,66 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupServices() {
     const servicesButton = document.querySelector("[data-services]");
     const servicesPanel = document.querySelector("[data-services-panel]");
+    const popup = document.querySelector("[data-map-popup]");
+    const popupTitle = document.querySelector("[data-map-title]");
+    const popupText = document.querySelector("[data-map-text]");
     if (!servicesButton || !servicesPanel) return;
 
+    const rooms = {
+      armurerie: {
+        title: "Armurerie",
+        text: "L'armurerie est l'endroit où les agents préparent leur équipement avant une mission. On y trouve des armes à feu, des silencieux, des explosifs, des outils de crochetage, des brouilleurs et plusieurs gadgets d'infiltration. Le joueur peut y choisir son équipement avant de partir.",
+      },
+      preuves: {
+        title: "Salle des preuves",
+        text: "Toutes les preuves récupérées lors des missions sont conservées ici. Armes, téléphones, documents, clés USB et objets appartenant aux cibles sont classés et stockés dans cette salle hautement sécurisée.",
+      },
+      informatique: {
+        title: "Salle informatique",
+        text: "La salle informatique regroupe les serveurs de la UFSSA. Les agents y consultent les dossiers des missions, les caméras de surveillance et les bases de données de l'organisation.",
+      },
+      laboratoire: {
+        title: "Laboratoire",
+        text: "Le laboratoire développe et teste les nouvelles technologies utilisées par la UFSSA. On y retrouve des gadgets, des prototypes et du matériel expérimental.",
+      },
+      briefing: {
+        title: "Salle de briefing",
+        text: "Toutes les missions commencent ici. Les agents reçoivent leur objectif, les informations sur la cible ainsi que les plans du lieu à infiltrer.",
+      },
+      archives: {
+        title: "Archives",
+        text: "Les archives contiennent tous les dossiers de la UFSSA. Elles regroupent les anciennes enquêtes, les rapports de mission et les informations classifiées.",
+      },
+      securite: {
+        title: "Sécurité interne",
+        text: "Cette section surveille les agents de la UFSSA eux-mêmes. Elle enquête sur les fuites d'informations, les comportements suspects et protège les zones les plus sensibles du bâtiment.",
+      },
+      directeur: {
+        title: "Bureau du directeur",
+        text: "Le directeur de la UFSSA travaille ici. C'est dans ce bureau qu'il convoque le joueur pour les missions importantes et qu'il prend les décisions concernant les opérations de l'agence.",
+      },
+      cafeteria: {
+        title: "Cafétéria",
+        text: "Lieu de repos réservé au personnel. Les agents viennent y manger, discuter et faire une pause entre deux missions. C'est aussi un bon endroit pour entendre des conversations intéressantes.",
+      },
+    };
+
     servicesButton.addEventListener("click", () => {
-      servicesPanel.classList.toggle("is-open");
+      servicesPanel.classList.toggle("is-hidden");
+      popup?.setAttribute("hidden", "");
+    });
+
+    document.querySelectorAll("[data-map-room]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const room = rooms[button.dataset.mapRoom || ""];
+        if (!room || !popup || !popupTitle || !popupText) return;
+
+        popupTitle.textContent = room.title;
+        popupText.textContent = room.text;
+        popup.style.left = button.style.getPropertyValue("--x");
+        popup.style.top = button.style.getPropertyValue("--y");
+        popup.removeAttribute("hidden");
+      });
     });
   }
 
@@ -1172,6 +1228,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Bureau du directeur", "Director's office"],
       ["Laboratoire", "Laboratory"],
       ["Securite interne", "Internal security"],
+      ["Sécurité interne", "Internal security"],
+      ["Salle des preuves", "Evidence room"],
+      ["Salle informatique", "Computer room"],
+      ["Cafétéria", "Cafeteria"],
       ["SUIVI INTERNE", "INTERNAL TRACKING"],
       ["Developpement", "Development"],
       ["Idée du jeu", "Game idea"],

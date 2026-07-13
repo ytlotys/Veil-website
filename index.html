@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=2">
-    <link rel="stylesheet" href="styles.css?v=27">
+    <link rel="stylesheet" href="styles.css?v=30">
   </head>
   <body>
     <div class="intro" id="intro">
@@ -247,15 +247,26 @@
         </div>
         <p>Une agence gouvernementale secrete officiellement chargee de proteger les United Federal States. Elle controle les operations clandestines, les dossiers sensibles, les missions d'infiltration et les menaces internationales. Au fil du jeu, le joueur decouvre que l'agence manipule certaines informations et utilise ses agents comme des outils.</p>
         <button class="btn btn-primary" data-services>Voir les services de la UFSSA</button>
-        <div class="services" data-services-panel>
-          <span>Armurerie</span>
-          <span>Salle de briefing</span>
-          <span>Archives</span>
-          <span>Salle des preuves</span>
-          <span>Salle informatique</span>
-          <span>Bureau du directeur</span>
-          <span>Laboratoire</span>
-          <span>Securite interne</span>
+        <div class="ufssa-map is-hidden" data-services-panel>
+          <img src="assets/ufssa-map.png" alt="Carte des bureaux de la UFSSA">
+          <div class="map-deco map-deco-top" aria-hidden="true">UFSSA // DOSSIER INTERNE</div>
+          <div class="map-deco map-deco-stamp" aria-hidden="true">CLASSIFIED</div>
+          <div class="map-deco map-deco-code" aria-hidden="true">ACCESS LVL 07</div>
+          <div class="map-corner map-corner-tl" aria-hidden="true"></div>
+          <div class="map-corner map-corner-br" aria-hidden="true"></div>
+          <button type="button" class="map-pin" style="--x: 23.8%; --y: 12.8%;" data-map-room="armurerie" aria-label="Armurerie"></button>
+          <button type="button" class="map-pin" style="--x: 49.9%; --y: 11.5%;" data-map-room="preuves" aria-label="Salle des preuves"></button>
+          <button type="button" class="map-pin" style="--x: 73.3%; --y: 12.5%;" data-map-room="informatique" aria-label="Salle informatique"></button>
+          <button type="button" class="map-pin" style="--x: 16.6%; --y: 40.1%;" data-map-room="archives" aria-label="Archives"></button>
+          <button type="button" class="map-pin" style="--x: 49.9%; --y: 38.8%;" data-map-room="briefing" aria-label="Salle de briefing"></button>
+          <button type="button" class="map-pin" style="--x: 83.3%; --y: 39.4%;" data-map-room="laboratoire" aria-label="Laboratoire"></button>
+          <button type="button" class="map-pin" style="--x: 22.5%; --y: 67.2%;" data-map-room="securite" aria-label="Sécurité interne"></button>
+          <button type="button" class="map-pin" style="--x: 49.9%; --y: 67.3%;" data-map-room="directeur" aria-label="Bureau du directeur"></button>
+          <button type="button" class="map-pin" style="--x: 76%; --y: 67.3%;" data-map-room="cafeteria" aria-label="Cafétéria"></button>
+          <div class="map-popup" data-map-popup hidden>
+            <strong data-map-title></strong>
+            <p data-map-text></p>
+          </div>
         </div>
         <p class="system-noise">EROR - PROJECT VEIL // DIRECTOR ACCESS DENIED</p>
       </section>
@@ -449,6 +460,6 @@
     </div>
 
     <script src="dialogue-data.js?v=1"></script>
-    <script src="script.js?v=34"></script>
+    <script src="script.js?v=35"></script>
   </body>
 </html>
