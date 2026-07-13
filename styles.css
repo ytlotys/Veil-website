@@ -869,6 +869,44 @@ input[type="range"]:disabled {
   box-shadow: inset 0 0 0 1px rgba(var(--red-hot-rgb), 0.08);
 }
 
+.sprite-stage[data-sprite-bg="white"] {
+  background: #f7f7f2;
+}
+
+.sprite-stage[data-sprite-bg="green"] {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    #2f8c42;
+  background-size: 32px 32px;
+}
+
+.sprite-stage[data-sprite-bg="grass"] {
+  background:
+    radial-gradient(circle at 12px 18px, rgba(194, 240, 118, 0.55) 0 2px, transparent 3px),
+    radial-gradient(circle at 28px 6px, rgba(41, 124, 49, 0.65) 0 3px, transparent 4px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%),
+    #3f9a46;
+  background-size: 42px 42px, 36px 36px, auto, auto;
+}
+
+.sprite-stage[data-sprite-bg="concrete"] {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    #777d7f;
+  background-size: 40px 40px;
+}
+
+.sprite-stage[data-sprite-bg="night"] {
+  background:
+    radial-gradient(circle at 25% 25%, rgba(121, 185, 216, 0.18), transparent 18%),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    #071018;
+  background-size: auto, 32px 32px, 32px 32px, auto;
+}
+
 .sprite-stage canvas {
   width: min(72vw, 256px);
   aspect-ratio: 1 / 1;
@@ -937,6 +975,43 @@ input[type="range"]:disabled {
 
 .sprite-reset {
   justify-self: start;
+}
+
+.sprite-bg-controls {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.sprite-bg-controls.is-hidden {
+  display: none;
+}
+
+.sprite-bg-controls span {
+  color: var(--ink);
+  font-family: "Share Tech Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+
+.sprite-bg-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.sprite-bg-buttons button {
+  min-height: 34px;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.sprite-bg-buttons button.is-active {
+  border-color: rgba(var(--red-hot-rgb), 0.7);
+  background: var(--red);
+  color: var(--ink);
 }
 
 .fps-row {

@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const spriteFpsControls = document.querySelectorAll("[data-sprite-fps-control]");
   const spriteModeButtons = document.querySelectorAll("[data-sprite-mode]");
   const spriteResetButton = document.querySelector("[data-sprite-reset]");
+  const spriteStage = document.querySelector(".sprite-stage");
+  const spriteBgControls = document.querySelector("[data-sprite-bg-controls]");
+  const spriteBgButtons = document.querySelectorAll("[data-sprite-bg]");
   const spriteHelp = document.querySelector("[data-sprite-help]");
   window.localStorage.removeItem("veil-language");
   window.localStorage.removeItem("veil-theme");
@@ -426,6 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastDirection = "down";
     let walkStep = 0;
     let displayFrame = 7;
+    let currentBackground = "grid";
     const player = {
       x: (spriteCanvas.width - frameSize) / 2,
       y: (spriteCanvas.height - frameSize) / 2,
@@ -441,6 +445,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateFpsLabel = () => {
       spriteFpsLabel.textContent = `${spriteFps.value} FPS`;
+    };
+
+    const applySpriteBackground = (background) => {
+      currentBackground = background;
+      if (spriteStage) {
+        spriteStage.dataset.spriteBg = mode === "move" ? currentBackground : "grid";
+      }
+      spriteBgButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.spriteBg === currentBackground);
+      });
     };
 
     const resetPlayer = () => {
@@ -480,6 +494,8 @@ document.addEventListener("DOMContentLoaded", () => {
       spriteFpsControls.forEach((control) => {
         control.classList.toggle("is-hidden", mode === "move");
       });
+      spriteBgControls?.classList.toggle("is-hidden", mode !== "move");
+      applySpriteBackground(currentBackground);
       spriteModeButtons.forEach((button) => {
         button.classList.toggle("is-active", button.dataset.spriteMode === mode);
       });
@@ -592,6 +608,11 @@ document.addEventListener("DOMContentLoaded", () => {
     spriteModeButtons.forEach((button) => {
       button.addEventListener("click", () => {
         updateMode(button.dataset.spriteMode || "preview");
+      });
+    });
+    spriteBgButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        applySpriteBackground(button.dataset.spriteBg || "grid");
       });
     });
     spriteSelect.addEventListener("change", loadSprite);
@@ -933,6 +954,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Aperçu", "Preview"],
       ["Déplacement", "Movement"],
       ["Spritesheet", "Spritesheet"],
+      ["Fond déplacement", "Movement background"],
+      ["Grille", "Grid"],
+      ["Blanc", "White"],
+      ["Vert", "Green"],
+      ["Herbe", "Grass"],
+      ["Béton", "Concrete"],
+      ["Nuit", "Night"],
       ["Recentrer le personnage", "Center character"],
       ["Héros - base", "Hero - base"],
       ["Héros - militaire", "Hero - military"],
