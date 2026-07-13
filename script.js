@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupModals();
   setupProgress();
   setupSpriteDemo();
+  setupCharacterChat();
   setupHeroLogoScroll();
   setupSystemNoise();
   setupEntryReset();
@@ -495,18 +496,31 @@ document.addEventListener("DOMContentLoaded", () => {
         control.classList.toggle("is-hidden", mode === "move");
       });
       spriteBgControls?.classList.toggle("is-hidden", mode !== "move");
+      spriteResetButton?.classList.toggle("is-hidden", mode !== "move");
+      spriteHelp?.classList.toggle("is-hidden", mode !== "move");
       applySpriteBackground(currentBackground);
       spriteModeButtons.forEach((button) => {
         button.classList.toggle("is-active", button.dataset.spriteMode === mode);
       });
     };
 
-    const getDirection = () => {
-      if (pressedKeys.has("ArrowUp") || pressedKeys.has("z") || pressedKeys.has("w")) return "up";
-      if (pressedKeys.has("ArrowDown") || pressedKeys.has("s")) return "down";
-      if (pressedKeys.has("ArrowLeft") || pressedKeys.has("q") || pressedKeys.has("a")) return "left";
-      if (pressedKeys.has("ArrowRight") || pressedKeys.has("d")) return "right";
-      return "";
+    const getMovement = () => {
+      const up = pressedKeys.has("ArrowUp") || pressedKeys.has("z") || pressedKeys.has("w");
+      const down = pressedKeys.has("ArrowDown") || pressedKeys.has("s");
+      const left = pressedKeys.has("ArrowLeft") || pressedKeys.has("q") || pressedKeys.has("a");
+      const right = pressedKeys.has("ArrowRight") || pressedKeys.has("d");
+      const x = Number(right) - Number(left);
+      const y = Number(down) - Number(up);
+
+      if (!x && !y) return null;
+
+      const diagonal = x !== 0 && y !== 0;
+      const length = diagonal ? Math.SQRT2 : 1;
+      const direction = Math.abs(x) > Math.abs(y)
+        ? (x > 0 ? "right" : "left")
+        : (y > 0 ? "down" : "up");
+
+      return { x: x / length, y: y / length, direction };
     };
 
     const drawFrame = (frame) => {
@@ -517,6 +531,7 @@ document.addEventListener("DOMContentLoaded", () => {
       context.clearRect(0, 0, spriteCanvas.width, spriteCanvas.height);
       const drawX = mode === "move" ? player.x : 0;
       const drawY = mode === "move" ? player.y : 0;
+
       context.drawImage(image, sourceX, sourceY, frameSize, frameSize, drawX, drawY, frameSize, frameSize);
     };
 
@@ -542,8 +557,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const previewFps = Number(spriteFps.value) || 8;
       const previewFrameDuration = 1000 / previewFps;
       const walkFrameDuration = 190;
-      const direction = mode === "move" ? getDirection() : "";
-      const isWalking = Boolean(direction);
+      const movement = mode === "move" ? getMovement() : null;
+      const isWalking = Boolean(movement);
 
       if (mode === "move" && lastMoveTime === 0) {
         lastMoveTime = time;
@@ -551,11 +566,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (mode === "move" && isWalking) {
         const elapsed = Math.min(40, time - lastMoveTime);
-        lastDirection = direction;
-        if (direction === "up") player.y -= (player.speed * elapsed) / 1000;
-        if (direction === "down") player.y += (player.speed * elapsed) / 1000;
-        if (direction === "left") player.x -= (player.speed * elapsed) / 1000;
-        if (direction === "right") player.x += (player.speed * elapsed) / 1000;
+        lastDirection = movement.direction;
+        player.x += (movement.x * player.speed * elapsed) / 1000;
+        player.y += (movement.y * player.speed * elapsed) / 1000;
       }
       lastMoveTime = time;
 
@@ -625,6 +638,243 @@ document.addEventListener("DOMContentLoaded", () => {
     updateMode("preview");
     loadSprite();
     window.requestAnimationFrame(animate);
+  }
+
+  function setupCharacterChat() {
+    const data = window.veilDialogueData;
+    const textNode = document.querySelector("[data-chat-text]");
+    const choicesNode = document.querySelector("[data-chat-choices]");
+    const portrait = document.querySelector(".chat-portrait");
+    const expressionNode = document.querySelector("[data-chat-expression]");
+    const trustNode = document.querySelector("[data-chat-trust]");
+    const historyNode = document.querySelector("[data-chat-history]");
+    const skipButton = document.querySelector("[data-chat-skip]");
+    const soundButton = document.querySelector("[data-chat-sound]");
+    const historyButton = document.querySelector("[data-chat-history-toggle]");
+    const resetButton = document.querySelector("[data-chat-reset]");
+    if (!data || !textNode || !choicesNode || !portrait) return;
+
+    const storageKey = "veil-ethan-conversation";
+    const nodes = Object.fromEntries(data.nodes.map((node) => [node.id, node]));
+    let state = loadChatState();
+    let typingTimer = 0;
+    let fullText = "";
+    let isTyping = false;
+    let lastSecondary = "";
+    let audioContext = null;
+    let chatAudible = true;
+
+    setupChatAudioDistance();
+    renderNode(getCurrentNode());
+
+    skipButton?.addEventListener("click", finishTyping);
+    soundButton?.addEventListener("click", () => {
+      state.sound = !state.sound;
+      saveChatState();
+      updateSoundButton();
+    });
+    historyButton?.addEventListener("click", () => {
+      if (!historyNode) return;
+      historyNode.hidden = !historyNode.hidden;
+      renderHistory();
+    });
+    resetButton?.addEventListener("click", () => {
+      state = createChatState();
+      saveChatState();
+      renderNode(getCurrentNode());
+    });
+
+    function createChatState() {
+      return {
+        current: data.start,
+        index: 0,
+        trust: 0,
+        sound: true,
+        history: [],
+        memory: {
+          empathic: 0,
+          cold: 0,
+          curious: 0,
+        },
+      };
+    }
+
+    function loadChatState() {
+      try {
+        return { ...createChatState(), ...JSON.parse(window.localStorage.getItem(storageKey) || "{}") };
+      } catch (error) {
+        return createChatState();
+      }
+    }
+
+    function saveChatState() {
+      window.localStorage.setItem(storageKey, JSON.stringify(state));
+    }
+
+    function getCurrentNode() {
+      if (state.current === "infinite") return createSecondaryNode();
+      return nodes[state.current] || nodes[data.start];
+    }
+
+    function createSecondaryNode() {
+      const pool = data.secondary.filter((line) => line !== lastSecondary);
+      const characterText = pool[Math.floor(Math.random() * pool.length)] || data.secondary[0];
+      lastSecondary = characterText;
+
+      if (state.trust < -4) {
+        return makeSecondary("suspicious", "Ce n'est pas ton problème.");
+      }
+      if (state.trust > 12 && Math.random() > 0.62) {
+        const secrets = [
+          "Le dernier souvenir précis de ma mère ? Ses mains froides autour d'une tasse vide.",
+          "Mon ancien patron ne m'a pas seulement protégé. Il m'a construit comme un outil.",
+          "Le vrai plan après ma fuite ? Changer de nom avant de changer de pays.",
+          "Je ne sais plus si je veux de l'argent ou simplement disparaître.",
+          "Avant chaque mission, j'ai peur. Je le cache mieux que les autres, c'est tout."
+        ];
+        return makeSecondary("tired", secrets[Math.floor(Math.random() * secrets.length)]);
+      }
+      return makeSecondary(["neutral", "tired", "amused", "suspicious"][Math.floor(Math.random() * 4)], characterText);
+    }
+
+    function makeSecondary(expression, characterText) {
+      return {
+        id: "infinite",
+        expression,
+        characterText,
+        choices: [
+          { text: "Je comprends pourquoi tu dis ça.", trustChange: 1, next: "infinite" },
+          { text: "Continue, je t'écoute.", trustChange: 0, next: "infinite" },
+          { text: "Tu tournes autour du sujet.", trustChange: -1, next: "infinite" },
+        ],
+      };
+    }
+
+    function renderNode(node) {
+      finishTyping();
+      fullText = node.characterText;
+      textNode.textContent = "";
+      choicesNode.innerHTML = "";
+      setExpression(node.expression || "neutral");
+      updateTrustLabel();
+      updateSoundButton();
+      typeChatText(fullText);
+
+      node.choices.forEach((choice) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = choice.text;
+        button.disabled = true;
+        button.addEventListener("click", () => choose(node, choice));
+        choicesNode.appendChild(button);
+      });
+    }
+
+    function choose(node, choice) {
+      if (isTyping) finishTyping();
+      state.trust = Math.max(-10, Math.min(20, state.trust + (choice.trustChange || 0)));
+      if (choice.trustChange > 0) state.memory.empathic += 1;
+      if (choice.trustChange < 0) state.memory.cold += 1;
+      if (choice.trustChange === 0) state.memory.curious += 1;
+      state.history.push({ ethan: node.characterText, visitor: choice.text });
+      state.history = state.history.slice(-18);
+      state.current = choice.next || "infinite";
+      state.index += 1;
+      saveChatState();
+      renderHistory();
+      renderNode(getCurrentNode());
+    }
+
+    function typeChatText(text) {
+      let index = 0;
+      isTyping = true;
+      portrait.classList.add("is-speaking");
+
+      const tick = () => {
+        textNode.textContent = text.slice(0, index);
+        if (index % 3 === 0) playTick();
+        index += 1;
+        if (index <= text.length) {
+          typingTimer = window.setTimeout(tick, 18);
+        } else {
+          isTyping = false;
+          portrait.classList.remove("is-speaking");
+          setChoicesDisabled(false);
+        }
+      };
+      tick();
+    }
+
+    function finishTyping() {
+      window.clearTimeout(typingTimer);
+      if (textNode) textNode.textContent = fullText;
+      isTyping = false;
+      portrait?.classList.remove("is-speaking");
+      setChoicesDisabled(false);
+    }
+
+    function setChoicesDisabled(disabled) {
+      choicesNode.querySelectorAll("button").forEach((button) => {
+        button.disabled = disabled;
+      });
+    }
+
+    function setExpression(expression) {
+      portrait.dataset.expression = expression;
+      if (expressionNode) expressionNode.textContent = expression.toUpperCase();
+    }
+
+    function updateTrustLabel() {
+      if (!trustNode) return;
+      if (state.trust >= 12) trustNode.textContent = "Confiance : élevée";
+      else if (state.trust >= 4) trustNode.textContent = "Confiance : moyenne";
+      else if (state.trust <= -3) trustNode.textContent = "Confiance : faible";
+      else trustNode.textContent = "Confiance : discrète";
+    }
+
+    function updateSoundButton() {
+      if (soundButton) soundButton.textContent = state.sound ? "Son : on" : "Son : off";
+    }
+
+    function renderHistory() {
+      if (!historyNode) return;
+      historyNode.innerHTML = state.history.map((entry) => `
+        <p><strong>Ethan :</strong> ${entry.ethan}</p>
+        <p><strong>Vous :</strong> ${entry.visitor}</p>
+      `).join("");
+    }
+
+    function setupChatAudioDistance() {
+      const shell = document.querySelector("[data-chat-shell]");
+      if (!shell) return;
+
+      const updateAudibleState = () => {
+        const rect = shell.getBoundingClientRect();
+        const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+        const visibleRatio = Math.max(0, visibleHeight) / Math.max(1, rect.height);
+        chatAudible = visibleRatio > 0.18;
+      };
+
+      updateAudibleState();
+      window.addEventListener("scroll", updateAudibleState, { passive: true });
+      window.addEventListener("resize", updateAudibleState);
+    }
+
+    function playTick() {
+      if (!state.sound || !chatAudible) return;
+      try {
+        audioContext ||= new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.type = "square";
+        oscillator.frequency.value = 520;
+        gain.gain.value = 0.012;
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.018);
+      } catch (error) {}
+    }
   }
 
   async function runIntroSequence() {
@@ -836,6 +1086,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Couleurs", "Colors"],
       ["Galerie", "Gallery"],
       ["Démo sprite", "Sprite demo"],
+      ["Conversation", "Conversation"],
       ["Suivre", "Follow"],
       ["Credits", "Credits"],
       ["DOSSIER 07-VEIL // CONFIDENTIEL", "FILE 07-VEIL // CONFIDENTIAL"],
@@ -972,6 +1223,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Découpe utilisée : 64x64 pixels. Dans l'aperçu, la spritesheet tourne avec la barre FPS. Dans déplacement, les touches contrôlent le personnage.", "Frame cut: 64x64 pixels. In preview, the spritesheet cycles with the FPS slider. In movement mode, the keys control the character."],
       ["UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL.", "USE FORBIDDEN WITHOUT PERMISSION. These sprites belong to the VEIL project."],
       ["QUESTIONS OUVERTES", "OPEN QUESTIONS"],
+      ["DOSSIER PERSONNEL", "PERSONAL FILE"],
+      ["Conversation avec le personnage principal", "Conversation with the main character"],
+      ["Confiance : discrète", "Trust: discreet"],
+      ["Passer le texte", "Skip text"],
+      ["Son : on", "Sound: on"],
+      ["Historique", "History"],
+      ["Recommencer", "Restart"],
+      ["Ethan se souviendra de certaines réponses.", "Ethan will remember some answers."],
       ["Quelle est l'idée principale de VEIL ?", "What is the main idea behind VEIL?"],
       ["VEIL est un jeu d'infiltration où les identités, les déguisements et les choix du joueur changent la façon d'entrer, d'observer et de fuir.", "VEIL is a stealth game where identities, disguises, and player choices change how you enter, observe, and escape."],
       ["Comment fonctionne l'usurpation d'identité ?", "How does identity theft work?"],
