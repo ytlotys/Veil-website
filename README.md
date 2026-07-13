@@ -1,36 +1,40 @@
 # VEIL
 
-**VEIL** est un jeu d'infiltration 2D en pixel art, en cours de developpement par **Lotys**.
+**VEIL** is a 2D pixel-art infiltration game currently in development by **Lotys**.
 
-Le projet suit un ancien membre d'une organisation criminelle force de collaborer avec la **UFSSA**, une agence secrete fictive. Entre infiltration, deguisements, missions rejouables et fuite preparee dans l'ombre, le joueur doit choisir comment survivre sans perdre son identite.
+The game follows a former member of a criminal organization who is forced to work with the **UFSSA**, a fictional secret agency. Through infiltration, disguises, replayable missions, and a hidden plan to escape, the player must choose how to survive without losing their identity.
 
-## Le site
+## Website
 
-Ce site presente l'univers de VEIL sous forme de dossier classifie :
+This website presents the world of VEIL as a classified file. It includes:
 
-- histoire et chronologie du jeu ;
-- concepts de gameplay ;
-- direction artistique ;
-- spritesheets, logos et visuels disponibles ;
-- informations sur le developpement ;
-- liens officiels de Lotys.
+- the story and mission timeline;
+- gameplay concepts;
+- artistic direction;
+- spritesheets, logos, and available visuals;
+- development information;
+- official Lotys links;
+- an interactive UFSSA office map;
+- a small character conversation system;
+- a spritesheet animation demo.
 
-## Statut
+## Status
 
-Le jeu et le site sont encore en developpement. Certaines sections peuvent donc contenir des emplacements temporaires ou des messages indiquant que les visuels arriveront plus tard.
+The game and the website are still in development. Some sections may contain temporary placeholders or messages saying that visuals will be added later.
 
-## Liens
+## Links
 
-- YouTube : https://www.youtube.com/@lotysYT
-- Discord : https://discord.gg/RE3DDBH5W
-- X : https://x.com/ytlotys
+- YouTube: https://www.youtube.com/@lotysYT
+- Discord: https://discord.gg/RE3DDBH5W
+- X: https://x.com/ytlotys
 
-## Droits
+## Usage Rights
 
-Les sprites, logos, images et textes lies a VEIL appartiennent au projet et ne sont pas libres d'utilisation.
+The sprites, logos, images, texts, and visual assets related to VEIL belong to the project and are not free to use.
 
-Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les integrer dans un autre projet.
+Please ask for permission before using, modifying, reposting, or including them in another project.
 
 ## Credits
 
-- Rory Mitchell pour la template du character en top down view.
+- Rory Mitchell for the top-down character template.
+- Codex for helping create part of the website.

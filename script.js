@@ -310,6 +310,13 @@ document.addEventListener("DOMContentLoaded", () => {
         popup.removeAttribute("hidden");
       });
     });
+
+    servicesPanel.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element) || !popup) return;
+      if (target.closest("[data-map-room]") || target.closest("[data-map-popup]")) return;
+      popup.setAttribute("hidden", "");
+    });
   }
 
   function setupModals() {
@@ -1245,7 +1252,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Systeme d'infiltration", "Stealth system"],
       ["Systeme de deguisements", "Disguise system"],
       ["Premiere mission jouable", "First playable mission"],
-      ["Progression du prototype", "Prototype progress"],
+      ["Progression du jeu", "Game progress"],
       ["PIÈCES JOINTES", "ATTACHMENTS"],
       ["PIECES JOINTES", "ATTACHMENTS"],
       ["SPRITESHEET", "SPRITESHEET"],
