@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=2">
-    <link rel="stylesheet" href="styles.css?v=18">
+    <link rel="stylesheet" href="styles.css?v=24">
   </head>
   <body>
     <div class="intro" id="intro">
@@ -306,9 +306,13 @@
         </div>
         <div class="sprite-demo-panel">
           <div class="sprite-stage">
-            <canvas width="64" height="64" data-sprite-canvas aria-label="Aperçu animé de la spritesheet"></canvas>
+            <canvas width="64" height="64" tabindex="0" data-sprite-canvas aria-label="Aperçu animé de la spritesheet"></canvas>
           </div>
           <div class="sprite-controls">
+            <div class="sprite-mode-tabs" aria-label="Mode de la démo spritesheet">
+              <button type="button" class="is-active" data-sprite-mode="preview">Aperçu</button>
+              <button type="button" data-sprite-mode="move">Déplacement</button>
+            </div>
             <label for="sprite-select">Spritesheet</label>
             <select id="sprite-select" data-sprite-select>
               <option value="assets/heros-base.png">Héros - base</option>
@@ -318,12 +322,14 @@
               <option value="assets/pnj-3.png">Civil vert</option>
               <option value="assets/pnj-militaire.png">Garde militaire</option>
             </select>
-            <label for="sprite-fps">FPS</label>
-            <div class="fps-row">
+            <button type="button" class="btn btn-ghost sprite-reset" data-sprite-reset>Recentrer le personnage</button>
+            <label for="sprite-fps" data-sprite-fps-control>FPS</label>
+            <div class="fps-row" data-sprite-fps-control>
               <input id="sprite-fps" type="range" min="1" max="24" value="8" data-sprite-fps>
               <strong data-sprite-fps-label>8 FPS</strong>
             </div>
-            <p>Découpe utilisée : 64x64 pixels. La démo sert uniquement à prévisualiser les sprites du projet.</p>
+            <p data-sprite-help>Touches : flèches ou ZQSD. En anglais : flèches ou WASD. Le personnage garde l'idle de la dernière direction.</p>
+            <p>Découpe utilisée : 64x64 pixels. Dans l'aperçu, la spritesheet tourne avec la barre FPS. Dans déplacement, les touches contrôlent le personnage.</p>
             <p class="rights-warning">UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL.</p>
           </div>
         </div>
@@ -399,6 +405,6 @@
       </div>
     </div>
 
-    <script src="script.js?v=18"></script>
+    <script src="script.js?v=26"></script>
   </body>
 </html>

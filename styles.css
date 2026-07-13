@@ -871,9 +871,20 @@ input[type="range"]:disabled {
 
 .sprite-stage canvas {
   width: min(72vw, 256px);
-  height: min(72vw, 256px);
+  aspect-ratio: 1 / 1;
+  height: auto;
+  outline: none;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+}
+
+.sprite-stage canvas.is-move-mode {
+  width: min(100%, 480px);
+  aspect-ratio: 4 / 3;
+}
+
+.sprite-stage canvas:focus {
+  box-shadow: 0 0 0 3px rgba(var(--red-hot-rgb), 0.34);
 }
 
 .sprite-controls {
@@ -883,6 +894,30 @@ input[type="range"]:disabled {
   padding: clamp(1rem, 3vw, 1.4rem);
   border: 1px solid var(--line);
   background: rgba(17, 19, 22, 0.76);
+}
+
+.sprite-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.4rem;
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sprite-mode-tabs button {
+  min-height: 38px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.sprite-mode-tabs button.is-active {
+  border-color: rgba(var(--red-hot-rgb), 0.65);
+  background: var(--red);
+  color: var(--ink);
 }
 
 .sprite-controls label {
@@ -900,11 +935,19 @@ input[type="range"]:disabled {
   padding: 0 0.8rem;
 }
 
+.sprite-reset {
+  justify-self: start;
+}
+
 .fps-row {
   display: grid;
   grid-template-columns: minmax(160px, 1fr) auto;
   gap: 1rem;
   align-items: center;
+}
+
+[data-sprite-fps-control].is-hidden {
+  display: none;
 }
 
 .faq-list {

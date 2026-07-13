@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const spriteSelect = document.querySelector("[data-sprite-select]");
   const spriteFps = document.querySelector("[data-sprite-fps]");
   const spriteFpsLabel = document.querySelector("[data-sprite-fps-label]");
+  const spriteFpsControls = document.querySelectorAll("[data-sprite-fps-control]");
+  const spriteModeButtons = document.querySelectorAll("[data-sprite-mode]");
+  const spriteResetButton = document.querySelector("[data-sprite-reset]");
+  const spriteHelp = document.querySelector("[data-sprite-help]");
   window.localStorage.removeItem("veil-language");
   window.localStorage.removeItem("veil-theme");
 
@@ -152,6 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     translateStaticText(lang);
     refreshSystemNoise(lang);
+    refreshSpriteFpsLabel();
+  }
+
+  function refreshSpriteFpsLabel() {
+    if (!spriteFps || !spriteFpsLabel) return;
+    spriteFpsLabel.textContent = `${spriteFps.value} FPS`;
   }
 
   function translateStaticText(lang) {
@@ -407,26 +417,101 @@ document.addEventListener("DOMContentLoaded", () => {
     context.imageSmoothingEnabled = false;
     const frameSize = 64;
     const image = new Image();
-    let frame = 0;
-    let frameCount = 1;
     let columns = 1;
+    let frameCount = 1;
     let lastFrameTime = 0;
+    let lastMoveTime = 0;
+    let mode = "preview";
+    let previewFrame = 0;
+    let lastDirection = "down";
+    let walkStep = 0;
+    let displayFrame = 7;
+    const player = {
+      x: (spriteCanvas.width - frameSize) / 2,
+      y: (spriteCanvas.height - frameSize) / 2,
+      speed: 54,
+    };
+    const pressedKeys = new Set();
+    const frames = {
+      up: { idle: 1, walk: [0, 2] },
+      right: { idle: 4, walk: [3, 5] },
+      down: { idle: 7, walk: [6, 8] },
+      left: { idle: 10, walk: [9, 11] },
+    };
 
     const updateFpsLabel = () => {
       spriteFpsLabel.textContent = `${spriteFps.value} FPS`;
     };
 
-    const drawFrame = () => {
+    const resetPlayer = () => {
+      pressedKeys.clear();
+      lastMoveTime = 0;
+      lastDirection = "down";
+      walkStep = 0;
+      displayFrame = frames[lastDirection].idle;
+      player.x = (spriteCanvas.width - frameSize) / 2;
+      player.y = (spriteCanvas.height - frameSize) / 2;
+      drawFrame(displayFrame);
+    };
+
+    const updateMode = (nextMode) => {
+      mode = nextMode;
+      pressedKeys.clear();
+      lastFrameTime = 0;
+      lastMoveTime = 0;
+      previewFrame = 0;
+      walkStep = 0;
+      displayFrame = mode === "move" ? frames[lastDirection].idle : previewFrame;
+
+      if (mode === "preview") {
+        spriteCanvas.width = frameSize;
+        spriteCanvas.height = frameSize;
+        spriteCanvas.classList.remove("is-move-mode");
+      } else {
+        spriteCanvas.width = 320;
+        spriteCanvas.height = 240;
+        spriteCanvas.classList.add("is-move-mode");
+        resetPlayer();
+        spriteCanvas.focus();
+      }
+
+      context.imageSmoothingEnabled = false;
+      updateFpsLabel();
+      spriteFpsControls.forEach((control) => {
+        control.classList.toggle("is-hidden", mode === "move");
+      });
+      spriteModeButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.spriteMode === mode);
+      });
+    };
+
+    const getDirection = () => {
+      if (pressedKeys.has("ArrowUp") || pressedKeys.has("z") || pressedKeys.has("w")) return "up";
+      if (pressedKeys.has("ArrowDown") || pressedKeys.has("s")) return "down";
+      if (pressedKeys.has("ArrowLeft") || pressedKeys.has("q") || pressedKeys.has("a")) return "left";
+      if (pressedKeys.has("ArrowRight") || pressedKeys.has("d")) return "right";
+      return "";
+    };
+
+    const drawFrame = (frame) => {
       if (!image.complete || !image.naturalWidth) return;
       const sourceX = (frame % columns) * frameSize;
       const sourceY = Math.floor(frame / columns) * frameSize;
 
-      context.clearRect(0, 0, frameSize, frameSize);
-      context.drawImage(image, sourceX, sourceY, frameSize, frameSize, 0, 0, frameSize, frameSize);
+      context.clearRect(0, 0, spriteCanvas.width, spriteCanvas.height);
+      const drawX = mode === "move" ? player.x : 0;
+      const drawY = mode === "move" ? player.y : 0;
+      context.drawImage(image, sourceX, sourceY, frameSize, frameSize, drawX, drawY, frameSize, frameSize);
     };
 
     const loadSprite = () => {
-      frame = 0;
+      walkStep = 0;
+      previewFrame = 0;
+      pressedKeys.clear();
+      displayFrame = mode === "move" ? frames[lastDirection].idle : previewFrame;
+      if (mode === "move") {
+        resetPlayer();
+      }
       image.src = spriteSelect.value;
     };
 
@@ -434,26 +519,89 @@ document.addEventListener("DOMContentLoaded", () => {
       columns = Math.max(1, Math.floor(image.naturalWidth / frameSize));
       const rows = Math.max(1, Math.floor(image.naturalHeight / frameSize));
       frameCount = columns * rows;
-      drawFrame();
+      drawFrame(displayFrame);
     });
 
     const animate = (time) => {
-      const fps = Number(spriteFps.value) || 8;
-      const frameDuration = 1000 / fps;
+      const previewFps = Number(spriteFps.value) || 8;
+      const previewFrameDuration = 1000 / previewFps;
+      const walkFrameDuration = 190;
+      const direction = mode === "move" ? getDirection() : "";
+      const isWalking = Boolean(direction);
 
-      if (time - lastFrameTime >= frameDuration) {
-        frame = (frame + 1) % frameCount;
-        drawFrame();
+      if (mode === "move" && lastMoveTime === 0) {
+        lastMoveTime = time;
+      }
+
+      if (mode === "move" && isWalking) {
+        const elapsed = Math.min(40, time - lastMoveTime);
+        lastDirection = direction;
+        if (direction === "up") player.y -= (player.speed * elapsed) / 1000;
+        if (direction === "down") player.y += (player.speed * elapsed) / 1000;
+        if (direction === "left") player.x -= (player.speed * elapsed) / 1000;
+        if (direction === "right") player.x += (player.speed * elapsed) / 1000;
+      }
+      lastMoveTime = time;
+
+      if (time - lastFrameTime >= (mode === "preview" ? previewFrameDuration : walkFrameDuration)) {
+        if (mode === "preview") {
+          previewFrame = (previewFrame + 1) % frameCount;
+          displayFrame = previewFrame;
+        } else if (isWalking) {
+          const sideWalk = lastDirection === "left" || lastDirection === "right";
+
+          if (sideWalk) {
+            const cycleStep = walkStep % 4;
+            displayFrame = cycleStep === 1
+              ? frames[lastDirection].walk[0]
+              : cycleStep === 3
+                ? frames[lastDirection].walk[1]
+                : frames[lastDirection].idle;
+            walkStep = (walkStep + 1) % 4;
+          } else {
+            walkStep = (walkStep + 1) % frames[lastDirection].walk.length;
+            displayFrame = frames[lastDirection].walk[walkStep];
+          }
+        } else {
+          walkStep = 0;
+          displayFrame = frames[lastDirection].idle;
+        }
         lastFrameTime = time;
       }
 
+      player.x = Math.max(0, Math.min(spriteCanvas.width - frameSize, player.x));
+      player.y = Math.max(0, Math.min(spriteCanvas.height - frameSize, player.y));
+
+      drawFrame(displayFrame);
       window.requestAnimationFrame(animate);
     };
 
+    const handleKeyDown = (event) => {
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      const movementKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "z", "q", "s", "d", "w", "a"];
+      if (mode !== "move" || !movementKeys.includes(key)) return;
+      event.preventDefault();
+      pressedKeys.add(key);
+    };
+
+    const handleKeyUp = (event) => {
+      const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
+      pressedKeys.delete(key);
+    };
+
+    spriteModeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        updateMode(button.dataset.spriteMode || "preview");
+      });
+    });
     spriteSelect.addEventListener("change", loadSprite);
+    spriteResetButton?.addEventListener("click", resetPlayer);
     spriteFps.addEventListener("input", updateFpsLabel);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
 
     updateFpsLabel();
+    updateMode("preview");
     loadSprite();
     window.requestAnimationFrame(animate);
   }
@@ -469,9 +617,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (const line of lines) {
       if (runId !== introRunId) return;
-      await typeText(line, line.dataset.typeText || "", 24, runId);
+      await typeText(line, line.dataset.typeText || "", 12, runId);
       if (runId !== introRunId) return;
-      await wait(160);
+      await wait(70);
     }
 
     await runProjectLoader(runId);
@@ -497,7 +645,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const frame of frames) {
       if (runId !== introRunId) return;
       projectLoader.textContent = frame;
-      await wait(260);
+      await wait(120);
     }
 
     projectLoader.textContent = currentLang === "fr" ? "PROJET VEIL // DOSSIER OUVERT" : "PROJECT VEIL // FILE OPEN";
@@ -782,14 +930,18 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Personnages", "Characters"],
       ["ANIMATION TEST", "ANIMATION TEST"],
       ["Démo spritesheet", "Spritesheet demo"],
+      ["Aperçu", "Preview"],
+      ["Déplacement", "Movement"],
       ["Spritesheet", "Spritesheet"],
+      ["Recentrer le personnage", "Center character"],
       ["Héros - base", "Hero - base"],
       ["Héros - militaire", "Hero - military"],
       ["Civil rouge", "Red civilian"],
       ["Civil bleu", "Blue civilian"],
       ["Civil vert", "Green civilian"],
       ["Garde militaire", "Military guard"],
-      ["Découpe utilisée : 64x64 pixels. La démo sert uniquement à prévisualiser les sprites du projet.", "Frame cut: 64x64 pixels. This demo is only used to preview the project's sprites."],
+      ["Touches : flèches ou ZQSD. En anglais : flèches ou WASD. Le personnage garde l'idle de la dernière direction.", "Controls: arrows or WASD. In French keyboard mode: arrows or ZQSD. The character keeps the idle pose from the last direction."],
+      ["Découpe utilisée : 64x64 pixels. Dans l'aperçu, la spritesheet tourne avec la barre FPS. Dans déplacement, les touches contrôlent le personnage.", "Frame cut: 64x64 pixels. In preview, the spritesheet cycles with the FPS slider. In movement mode, the keys control the character."],
       ["UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL.", "USE FORBIDDEN WITHOUT PERMISSION. These sprites belong to the VEIL project."],
       ["QUESTIONS OUVERTES", "OPEN QUESTIONS"],
       ["Quelle est l'idée principale de VEIL ?", "What is the main idea behind VEIL?"],
