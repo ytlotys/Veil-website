@@ -354,6 +354,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="assets/heros-militaire.png" alt="Spritesheet du heros en tenue militaire">
             <figcaption>${uiText("militaryIdentity")}</figcaption>
           </figure>
+          <figure>
+            <img src="assets/heros-vip.png" alt="Spritesheet du heros en tenue VIP">
+            <figcaption>${uiText("vipIdentity")}</figcaption>
+          </figure>
         </div>
       `;
       modalBody.innerHTML = `<p>${uiText("heroModalBody")}</p>`;
@@ -382,6 +386,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="assets/pnj-militaire.png" alt="Spritesheet d'un garde militaire">
             <figcaption>${uiText("militaryGuard")}</figcaption>
           </figure>
+          <figure>
+            <img src="assets/pnj-vip.png" alt="Spritesheet d'un VIP dont on peut usurper l'identite">
+            <figcaption>${uiText("vipRecoverable")}</figcaption>
+          </figure>
         </div>
       `;
       modalBody.innerHTML = `
@@ -403,6 +411,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <figcaption>${uiText("heroMilitary")}</figcaption>
           </figure>
           <figure>
+            <img src="assets/heros-vip.png" alt="Spritesheet du heros en tenue VIP">
+            <figcaption>${uiText("heroVip")}</figcaption>
+          </figure>
+          <figure>
             <img src="assets/pnj-1.png" alt="Spritesheet civil rouge">
             <figcaption>${uiText("redCivilian")}</figcaption>
           </figure>
@@ -417,6 +429,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <figure>
             <img src="assets/pnj-militaire.png" alt="Spritesheet d'un garde militaire">
             <figcaption>${uiText("militaryGuard")}</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/pnj-vip.png" alt="Spritesheet d'un VIP dont on peut usurper l'identite">
+            <figcaption>${uiText("vipRecoverable")}</figcaption>
           </figure>
         </div>
       `;
@@ -1057,16 +1073,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function uiText(key) {
     const strings = {
       heroModalBody: {
-        fr: "La première spritesheet montre le héros dans sa tenue de base. La deuxième montre le héros après usurpation d'identité, ici avec une tenue militaire.",
-        en: "The first spritesheet shows the hero in his base outfit. The second shows the hero after identity theft, here wearing a military uniform.",
+        fr: "La première spritesheet montre le héros dans sa tenue de base. Les autres montrent le héros après usurpation d'identité, avec une tenue militaire ou VIP.",
+        en: "The first spritesheet shows the hero in his base outfit. The others show the hero after identity theft, wearing a military or VIP outfit.",
       },
       civilsModalBody: {
         fr: "Ces spritesheets montrent des civils. Ils servent de personnages neutres dans l'univers du jeu.",
         en: "These spritesheets show civilians. They are neutral characters in the game's universe.",
       },
       identityModalBody: {
-        fr: "Ce personnage fait partie des identités récupérables. Le joueur peut l'isoler, neutraliser le garde, puis usurper son identité pour accéder à certaines zones.",
-        en: "This character is one of the recoverable identities. The player can isolate him, neutralize the guard, then steal his identity to access certain areas.",
+        fr: "Ces personnages font partie des identités récupérables. Le joueur peut isoler une personne, la neutraliser, puis usurper son identité pour accéder à certaines zones.",
+        en: "These characters are recoverable identities. The player can isolate a person, neutralize them, then steal their identity to access certain areas.",
       },
       rightsWarning: {
         fr: "UTILISATION INTERDITE SANS ACCORD. Ces sprites appartiennent au projet VEIL. Il faut demander l'accord avant de les utiliser, les modifier, les republier ou les intégrer dans un autre projet.",
@@ -1100,13 +1116,25 @@ document.addEventListener("DOMContentLoaded", () => {
         fr: "Identité usurpée : militaire",
         en: "Stolen identity: military",
       },
+      vipIdentity: {
+        fr: "Identité usurpée : VIP",
+        en: "Stolen identity: VIP",
+      },
       militaryGuard: {
         fr: "Garde militaire",
         en: "Military guard",
       },
+      vipRecoverable: {
+        fr: "VIP - identité récupérable",
+        en: "VIP - recoverable identity",
+      },
       heroBase: {
         fr: "Héros - base",
         en: "Hero - base",
+      },
+      heroVip: {
+        fr: "Héros - VIP",
+        en: "Hero - VIP",
       },
       heroMilitary: {
         fr: "Héros - militaire",
@@ -1337,6 +1365,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Garde militaire", "Military guard"],
       ["Heros - base", "Hero - base"],
       ["Heros - militaire", "Hero - military"],
+      ["Héros - VIP", "Hero - VIP"],
+      ["VIP", "VIP"],
+      ["VIP - identité récupérable", "VIP - recoverable identity"],
+      ["Identité usurpée : VIP", "Stolen identity: VIP"],
       ["Logo principal de VEIL", "Main VEIL logo"],
     ];
 
